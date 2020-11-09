@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/fragmentMainMenu"
+    tools:ignore="UnusedNavigation">
+
+
+    <fragment
+        android:id="@+id/fragmentMainMenu"
+        android:name="com.example.blindchess.ui.fragment.FragmentMainMenu"
+        android:label="FragmentMainMenu" >
+        <action
+            android:id="@+id/action_fragmentMainMenu_to_fragmentGameRoom"
+            app:destination="@id/fragmentGameRoom" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentGameRoom"
+        android:name="com.example.blindchess.ui.fragment.FragmentGameRoom"
+        android:label="FragmentGameRoom" />
+
+</navigation>
