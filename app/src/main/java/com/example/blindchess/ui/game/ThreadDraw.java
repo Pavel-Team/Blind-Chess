@@ -9,6 +9,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.os.Build;
+import android.os.Handler;
+import android.util.Log;
+import android.view.PixelCopy;
 import android.view.SurfaceHolder;
 
 import com.example.blindchess.R;
@@ -16,11 +20,13 @@ import com.example.blindchess.R;
 public class ThreadDraw extends Thread{
 
     private SurfaceHolder surfaceHolder; //Объект класса SurfaceHolder (для поприсовки изображения на Canvas'е)
-    Context context; //Контекст приложения
+    private Context context; //Контекст приложения
+    private Handler handler; //Механизм для обработки очереди сообщений в другом потоке
     private Matrix matrix; //Матрица определяющая расположение и ориентацию картинки
     private boolean isRun = false; //Выполняется ли поток
     private Canvas canvas = null; //Канвас, на котором все отображается
     private Paint paint = new Paint(); //Кисть для рисования
+    private Bitmap lastScreen; //Последний отрисованный экран (нужен из-за буферизации SurfaceView)
     private float widthCell; //Размер клетки в пикселях на экране
 
     private Bitmap spriteBoard; //Спрайт доски
@@ -49,10 +55,12 @@ public class ThreadDraw extends Thread{
      * Принимает 2 параметра:
      * Context context - контекст приложения
      * SurfaceHolder surfaceHolder - объект класса SurfaceHolder - нужен для "создания" канваса */
-    public ThreadDraw(Context context, SurfaceHolder surfaceHolder){
+    public ThreadDraw(Context context, SurfaceHolder surfaceHolder, Handler handler){
 
         this.surfaceHolder = surfaceHolder; //Передаем наш канвас, на котором будет производить отрисовку
         this.context = context;
+        this.handler = handler;
+
 
 
         //Загрузка спрайтов
@@ -69,7 +77,7 @@ public class ThreadDraw extends Thread{
         System.out.println("Масштаб клетки = " + String.valueOf(scaleBoard));
 
         float widthSpriteFigure = spriteFigures.getWidth() / 6; //Ширина одной текстуры спрайта в пискселях
-        System.out.println("Ширина фигуры в пикселях = " + String.valueOf(widthSpriteFigure));
+        System.out.println("Ширина фигуры в спрайте в пикселях = " + String.valueOf(widthSpriteFigure));
         float scaleFigure = widthCell/widthSpriteFigure; //Масштаб для фигуры
         System.out.println("Масштаб фигуры = " + String.valueOf(scaleFigure));
 
@@ -107,9 +115,22 @@ public class ThreadDraw extends Thread{
     }
 
 
-    //Функция, определяющая начало потока (true или false)
+    /**Функция, определяющая начало потока (true или false)*/
     public void setRunning(boolean run) {
         this.isRun = run;
+    }
+
+
+    /**Функция возвращающая последний скриншот surfaceView
+     * Скриншот нужен из-за двойной буферизации SurfaceView*/
+    private Bitmap getLastScreen() {
+        lastScreen = Bitmap.createBitmap((int) widthCell*8, (int) widthCell*8, Bitmap.Config.ARGB_8888); //Создаем bitmap заданного размера
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            PixelCopy.request(surfaceHolder.getSurface(), lastScreen, ThreadDraw::onPixelCopyFinished, handler);
+        }
+
+        return lastScreen;
     }
 
 
@@ -181,10 +202,14 @@ public class ThreadDraw extends Thread{
 
         //Отрисовывем спрайт
         try {
-            //Получаем объект Canvas
+            lastScreen = getLastScreen(); //Получаем скриншот из прошлого буфера
+
+            //Получаем объект Canvas и рисуем на нем изменения
             canvas = surfaceHolder.lockCanvas(null);
+
             synchronized (surfaceHolder) {
                 if (canvas != null) {
+                    canvas.drawBitmap(lastScreen, 0, 0, paint);
                     canvas.drawBitmap(sprite, (int) widthCell * numberCellX, (int) widthCell * numberCellY, paint);
                 }
             }
@@ -197,13 +222,12 @@ public class ThreadDraw extends Thread{
     }
 
 
-    //Действия, выполняемые в потоке
+    /**Действия, выполняемые в потоке
+     * Здесь происходит первоначальная отрисовка доски*/
     @Override
     public void run() {
 
-        System.out.println("start run");
-
-
+        System.out.println("Запуск ThreadDraw");
         float widthCell = ((Activity) context).getWindowManager().getDefaultDisplay().getWidth() / 8; //Ширина одной клетки поля в пикселях на экране
 
 
@@ -221,17 +245,17 @@ public class ThreadDraw extends Thread{
                     //Отрисовка доски (ВРЕМЕННО)
                     /**Сделать потоком*/
                     for (int i = 0; i < 8; i++) {
-                            if(i % 2 == 0) {
-                                for (int j = 0; j < 4; j++) {
-                                    canvas.drawBitmap(spriteCellW, 2*j * widthCell, widthCell * i, paint);
-                                    canvas.drawBitmap(spriteCellB, (2*j + 1) * widthCell, widthCell * i, paint);
-                                }
-                            } else {
-                                for (int j = 0; j < 4; j++) {
-                                    canvas.drawBitmap(spriteCellB, 2*j * widthCell, widthCell * i, paint);
-                                    canvas.drawBitmap(spriteCellW, (2*j + 1) * widthCell, widthCell * i, paint);
-                                }
+                        if(i % 2 == 0) {
+                            for (int j = 0; j < 4; j++) {
+                                canvas.drawBitmap(spriteCellW, 2*j * widthCell, widthCell * i, paint);
+                                canvas.drawBitmap(spriteCellB, (2*j + 1) * widthCell, widthCell * i, paint);
                             }
+                        } else {
+                            for (int j = 0; j < 4; j++) {
+                                canvas.drawBitmap(spriteCellB, 2*j * widthCell, widthCell * i, paint);
+                                canvas.drawBitmap(spriteCellW, (2*j + 1) * widthCell, widthCell * i, paint);
+                            }
+                        }
                     }
 
                     /**Сделать потоком*/
@@ -297,6 +321,16 @@ public class ThreadDraw extends Thread{
 
         }*/
 
+    }
+
+
+    /**Listener для класса CopyPixel (сообщает об возникшей ошибке во время копирования lastScreen)*/
+    private static void onPixelCopyFinished(int result) {
+        //Если неудачно - сообщаем об ошибке
+        if (result != PixelCopy.SUCCESS) {
+            Log.e("err", "Не удалось сделать lastScreen");
+            return;
+        }
     }
 
 }

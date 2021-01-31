@@ -3,20 +3,19 @@ package com.example.blindchess.ui.game;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
+
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.blindchess.R;
-
 
 public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
-    private ThreadDraw threadDraw; //Поток для отрисовки объекта
-    private float widthCell; //Размер клетки в пикселях на экране
+    private ThreadDraw threadDraw;       //Поток для отрисовки объекта
+    private float widthCell;             //Размер клетки в пикселях на экране
+    private SurfaceHolder surfaceHolder; //Объект класса SurfaceHolder - нужен для "создания" канваса
+    private Handler handler;             //Механизм для обработки очереди сообщений в другом потоке
 
 
     /**Конструктор класса
@@ -27,6 +26,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         getHolder().addCallback(this); //Этот объект будет предоставлять нам полотно (canvas) для рисования на нем объектов
         widthCell = ((Activity) context).getWindowManager().getDefaultDisplay().getWidth() / 8;
+        surfaceHolder = getHolder();
+        handler = getHandler();
     }
 
 
@@ -42,11 +43,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
 
         //Открываем поток для рисования
-        threadDraw = new ThreadDraw(getContext(), getHolder());
+        threadDraw = new ThreadDraw(getContext(), surfaceHolder, getHandler());
         threadDraw.setRunning(true);
         threadDraw.start();
     }
-
 
     /**Вызывается при изменении области рисования*/
     @Override
@@ -80,8 +80,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN) { //Нажатие
+        //Обработка нажатия на экран
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
             System.out.println("X = " + String.valueOf(event.getX()));
             System.out.println("Y = " + String.valueOf(event.getY()));

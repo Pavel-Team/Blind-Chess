@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Создаем контроллер меню, который запускает первоначальный фрагмент (ищет в навигации) в mainContainer
         NavController navController = Navigation.findNavController(this, R.id.main_container);
-
     }
 
 }
