@@ -4,54 +4,48 @@ package com.example.blindchess.ui.game;
 import com.example.blindchess.ui.game.figure.Figure;
 
 
-//Перечисления возможных статусов клетки
-enum Status {
-    UNKNOWN, //Неизвестная клетка
-    EMPTY,   //Пустая клетка
-    FIGURE   //Клетка с фигурой
-}
-
-//Перечисления возможного цвета клетки/фигуры
-enum Color {
-    BLACK,
-    WHITE
-}
-
-
 public class CellBoard {
 
-    private Status status;  //Статус клетки
-    private Color color;    //Цвет клетки/фигуры
-    private Figure figure;  //Объект фигуры (её тип), если она есть в данной клетке
+    private boolean isVisible; //Видимая (исследованная) ли клетка
+    private boolean isBusy;    //Есть ли на данной клетке фигура (занята ли данная клетка)
+    private Figure figure;     //Объект фигуры (её тип), если она есть в данной клетке
 
 
     /**Конструктор класса
      * На вход принимает 3 параметра:
-     * Status status - статус клетки
-     * Color color - цвет клетки/фигуры
+     * boolean isVisible - видимо ли содержимое клетки для игрока (исследована ли она)
+     * boolean isBusy - занята ли данная клетка какой-нибудь фигурой
      * Figure figure - объект фигуры (её тип), если она есть в данной клетке*/
-    public CellBoard(Status status, Color color, Figure figure){
-        this.status = status;
-        this.color = color;
+    public CellBoard(boolean isVisible, boolean isBusy, Figure figure){
+        this.isVisible = isVisible;
+        this.isBusy = isBusy;
         this.figure = figure;
     }
 
 
     /**____________________ GETTER'Ы и SETTER'Ы ____________________*/
-    public Status getStatus() {
-        return status;
+    public boolean isVisible() {
+        return isVisible;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 
-    public Color getColor() {
-        return color;
+    public boolean isBusy() {
+        return isBusy;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setBusy(boolean busy) {
+        isBusy = busy;
+    }
+
+    public Figure getFigure() {
+        return figure;
+    }
+
+    public void setFigure(Figure figure){
+        this.figure = figure;
     }
     /**_____________________________________________________________*/
 }

@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.blindchess.ui.game.threads.calculation.ThreadInitBoard;
 import com.example.blindchess.ui.game.threads.sprite.ThreadSpriteBoard;
 import com.example.blindchess.ui.game.threads.sprite.ThreadSpriteFigures;
 
@@ -20,12 +21,12 @@ public class BoardView extends View {
     private float widthCell;                                  //Размер клетки в пикселях на экране
 
     private CellBoard[][] board = new CellBoard[8][8];        //Шахматная доска со всеми данными, состоящая из 8х8 клеток (CellBoard)
-    private CellBoard[][] visibleBoard = new CellBoard[8][8]; //Шахматная доска с видимыми для пользователя данными (то есть невидимыми клетками)
     private Bitmap[] spritesBoard = new Bitmap[5];            //Массив со спрайтами доски ([0] - белая клекта; [1] - черная клетка; [2] - белая неизвестная клетка; [3] - черная неизвестная клетка; [4] - выбранная клетка)
     private Bitmap[] spritesFigures = new Bitmap[12];         //Массив со спрайтами фигур ([0] - белая пешка; [1] - белый слон; [2] - белый конь; [3] - белый офицер; [4] - белая королева; [5] - белый король; Остальные другого цвета)
 
     private ThreadSpriteBoard threadSpriteBoard;              //Поток для загрузки спрайтов доски
     private ThreadSpriteFigures threadSpriteFigures;          //Поток для загрузки спрайтов фигур
+    private ThreadInitBoard threadInitBoard;                  //Поток для первоначальной инициализации доски CellBoard[8][8] board
 
 
     /**Конструткор класса
@@ -46,13 +47,15 @@ public class BoardView extends View {
         threadSpriteBoard = new ThreadSpriteBoard(context);
         threadSpriteBoard.execute();
 
-        //Первоначальная инициализация доски
-        //...
+        //Первоначальная инициализация доски в отдельном потоке
+        threadInitBoard = new ThreadInitBoard(team);
+        threadInitBoard.execute();
 
-        //Получаем наши спрайты
+        //Получаем наши спрайты и первоначальное состояние доски
         try {
             spritesBoard = threadSpriteBoard.get();
             spritesFigures = threadSpriteFigures.get();
+            board = threadInitBoard.get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
