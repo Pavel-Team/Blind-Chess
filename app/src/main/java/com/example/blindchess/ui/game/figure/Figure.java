@@ -1,19 +1,11 @@
 /**Интерфейс шахматной фигуры*/
 package com.example.blindchess.ui.game.figure;
 
-/**Перечисления возможного вида шахматной фигуры*/
-enum Type {
-    PAWN,
-    ELEPHANT,
-    HORSE,
-    OFFICER,
-    QUEEN,
-    KING
-}
 
+import com.example.blindchess.ui.game.CellBoard;
 
 public interface Figure {
-    public Type getType(); //Получение типа фигуры
-    public void setType(); //Установка типа фигуры
-    public int[] calculateOfPossibleMove(); //Расчет возможного хода фигуры (видимость фигуры)
+    public String getTeam();                                                                      //Получение цвета команды (WHITE ИЛИ BLACK)
+    public CellBoard[][] calculateOfCanMove(CellBoard[][] board, int x, int y);                   //Расчет возможного хода фигуры (видимость фигуры) по заданному состоянию доски и данным координатам фигуры
+    public CellBoard[][] calculateOfVisibility(CellBoard[][] board, int x, int y);                //Расчет видимости клеток данной фигурой (какие клетки фигура видит). Используется в потоке ThreadCalculateVisibility
 }

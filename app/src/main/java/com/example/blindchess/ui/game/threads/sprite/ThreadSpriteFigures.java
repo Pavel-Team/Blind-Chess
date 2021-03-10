@@ -32,6 +32,7 @@ public class ThreadSpriteFigures extends AsyncTask<Void, Void, Bitmap[]> {
     /**Действия, выполняемые в потоке*/
     @Override
     protected Bitmap[] doInBackground(Void... voids) {
+        System.out.println("Начало потока загрузки спрайтов фигур");
         this.spriteFigures = BitmapFactory.decodeResource(context.getResources(), R.drawable.figures); //Загрузка спрайта фигур со всеми спрайтами
 
         //Необходимые расчеты
@@ -56,7 +57,8 @@ public class ThreadSpriteFigures extends AsyncTask<Void, Void, Bitmap[]> {
         arraySpites[10] = Bitmap.createBitmap(spriteFigures, widthFigure, widthFigure, widthFigure, widthFigure, matrix, true);     //Спрайт черной королевы
         arraySpites[11] = Bitmap.createBitmap(spriteFigures, 0, widthFigure, widthFigure, widthFigure, matrix, true);            //Спрайт черного короля
 
-        return new Bitmap[0];
+        System.out.println("Завершение потока загрузки спрайтов фигур");
+        return arraySpites;
     }
 
 

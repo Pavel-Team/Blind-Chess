@@ -1,9 +1,9 @@
-/**Класс офицера */
+/**Класс слона */
 package com.example.blindchess.ui.game.figure;
 
 import com.example.blindchess.ui.game.CellBoard;
 
-public class Officer implements Figure {
+public class Elephant implements Figure {
 
     private String team; //Цвет команды фигуры (WHITE или BLACK)
 
@@ -11,7 +11,7 @@ public class Officer implements Figure {
     /**Конструктор класса
      * На вход принимает 1 параметр:
      * String team - цвет команды (WHITE или BLACK)*/
-    public Officer(String team){
+    public Elephant(String team){
         this.team = team;
     }
 

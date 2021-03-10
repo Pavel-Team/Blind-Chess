@@ -18,7 +18,7 @@ public class ThreadSpriteBoard extends AsyncTask<Void, Void, Bitmap[]> {
     private float scaleBoard;                     //Масштаб, на который нужно увеличить спрайты доски для адаптации к размеру телефона
 
     private Bitmap spriteBoard;                   //Спрайт доски
-    private Bitmap[] arraySpites = new Bitmap[5]; //Массив со спрайтами доски ([0] - белая клекта; [1] - черная клетка; [2] - белая неизвестная клетка; [3] - черная неизвестная клетка; [4] - выбранная клетка)
+    private Bitmap[] arraySpites = new Bitmap[6]; //Массив со спрайтами доски ([0] - белая клетка; [1] - черная клетка; [2] - выбранная клетка; [3] - неизвестная клетка; [4] - доступный ход; [5] - доступная атака)
 
 
     /**Конструктор класса
@@ -33,6 +33,7 @@ public class ThreadSpriteBoard extends AsyncTask<Void, Void, Bitmap[]> {
     @Override
     protected Bitmap[] doInBackground(Void... voids) {
 
+        System.out.println("Начало потока загрузки спрайтов доски");
         this.spriteBoard = BitmapFactory.decodeResource(context.getResources(), R.drawable.board); //Загружаем спрайт доски со всеми спрайтами клеток
 
         //Необходимые расчеты
@@ -43,12 +44,14 @@ public class ThreadSpriteBoard extends AsyncTask<Void, Void, Bitmap[]> {
         //Получение спрайтов
         Matrix matrix = new Matrix();
         matrix.setScale(scaleBoard, scaleBoard);
-        arraySpites[0] = Bitmap.createBitmap(spriteBoard, 0, 0, widthSpriteCell,widthSpriteCell, matrix, false);                       //Спрайт белой клетки
-        arraySpites[1] = Bitmap.createBitmap(spriteBoard, widthSpriteCell, 0, widthSpriteCell,widthSpriteCell, matrix, false);            //Спрайт черной клетки
-        arraySpites[2] = Bitmap.createBitmap(spriteBoard, 0, widthSpriteCell, widthSpriteCell,widthSpriteCell, matrix, false);            //Спрайт неизвестной белой клетки
-        arraySpites[3] = Bitmap.createBitmap(spriteBoard, widthSpriteCell, widthSpriteCell, widthSpriteCell,widthSpriteCell, matrix, false); //Спрайт неизвестной черной клетки
-        arraySpites[4] = Bitmap.createBitmap(spriteBoard, 2*widthSpriteCell, 0, widthSpriteCell,widthSpriteCell, matrix, true);       //Спрайт выбранной клетки
+        arraySpites[0] = Bitmap.createBitmap(spriteBoard, 0, 0, widthSpriteCell,widthSpriteCell, matrix, false);                           //Спрайт белой клетки
+        arraySpites[1] = Bitmap.createBitmap(spriteBoard, widthSpriteCell, 0, widthSpriteCell,widthSpriteCell, matrix, false);                //Спрайт черной клетки
+        arraySpites[2] = Bitmap.createBitmap(spriteBoard, 2*widthSpriteCell, 0, widthSpriteCell,widthSpriteCell, matrix, false);           //Спрайт выбранной клетки
+        arraySpites[3] = Bitmap.createBitmap(spriteBoard, 0, widthSpriteCell, widthSpriteCell,widthSpriteCell, matrix, false);                //Спрайт неизвестной клетки
+        arraySpites[4] = Bitmap.createBitmap(spriteBoard, widthSpriteCell, widthSpriteCell, widthSpriteCell,widthSpriteCell, matrix, true);      //Спрайт доступного хода
+        arraySpites[5] = Bitmap.createBitmap(spriteBoard, 2*widthSpriteCell, widthSpriteCell, widthSpriteCell,widthSpriteCell, matrix, true); //Спрайт доступной атаки
 
+        System.out.println("Завершение потока загрузки спрайтов доски");
         return arraySpites;
     }
 
