@@ -25,15 +25,17 @@ public class ThreadCalculateVisibility extends AsyncTask<Void, Void, CellBoard[]
     @Override
     protected CellBoard[][] doInBackground(Void... voids) {
 
-        //Проходимся по каждой клетке поля в поиске фигур данной команды
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        //Обнуляем видимость всего поля (МБ ОПТИМИЗИРОВАТЬ)
+        for (int i = 0; i < 8; i++)
+            for (int j = 0; j < 8; j++)
                 board[i][j].setVisible(false);
-                if (board[i][j].getFigure() != null && board[i][j].getFigure().getTeam().equals(team)){
+
+        //Проходимся по каждой клетке поля в поиске фигур данной команды
+        for (int i = 0; i < 8; i++)
+            for (int j = 0; j < 8; j++)
+                if (board[i][j].isBusy() && board[i][j].getFigure().getTeam().equals(team))
                     board = board[i][j].getFigure().calculateOfVisibility(board, j, i);
-                }
-            }
-        }
+
 
         return board;
     }

@@ -2,6 +2,8 @@
 package com.example.blindchess.ui.game;
 
 import android.app.Activity;
+import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,6 +11,7 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.blindchess.R;
 import com.example.blindchess.ui.game.figure.Elephant;
 import com.example.blindchess.ui.game.figure.Figure;
 import com.example.blindchess.ui.game.figure.Horse;
@@ -106,7 +109,7 @@ public class BoardView extends View {
                 CellBoard cell = board[numberCellY][numberCellX]; //Текущая выбранная клетка
 
                 //Проверяем, является ли нажатая клетка - фигурой моего цвета (если да - расчитываем isCanMove (меняя состояние доски board), если нет - далее проверяем на наличие isCanMove в нажатой клетке)
-                if (cell.getFigure() != null && cell.getFigure().getTeam().equals(team)) {
+                if (cell.isBusy() && cell.getFigure().getTeam().equals(team)) {
                     /**Обнуляем прошлый isCanMove (НАДО ОПТИМИЗИРОВАТЬ)*/
                     for (int i = 0; i < 8; i++)
                         for(int j = 0; j < 8; j++)
@@ -116,9 +119,53 @@ public class BoardView extends View {
                 } else {
                     //Проверяем, есть ли у данной клетки isCanMove (если да - изменили состояние доски (переместили фигуру), если нет - ничего не делаем)
                     if (cell.isCanMove()) {
-                        //Меняем состояние доски
+                        //Меняем состояние доски (ХОД СДЕЛАН)
                         board[numberCellY][numberCellX] = board[lastNumberCellY][lastNumberCellX];
                         board[lastNumberCellY][lastNumberCellX] = new CellBoard(false,false,null);
+
+                        //Проверка, был ли этот ход - ходом пешки до конца доски (то есть нужен ли нам вызов всплывающего окна с выбором фигуры перед отправкой хода на сервер)
+                        if (numberCellY == 0 && board[numberCellY][numberCellX].getFigure() instanceof Pawn) {
+                            Dialog dialog = new Dialog(getContext());
+                            dialog.setContentView(R.layout.dialog_view_selecting_figure);
+                            dialog.setCanceledOnTouchOutside(false);
+                            dialog.setCancelable(false);
+                            dialog.show();
+
+                            //Если выбран слон
+                            dialog.findViewById(R.id.imageView_settingElphant).setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    board[numberCellY][numberCellX] = new CellBoard(true,true, new Elephant(team));
+                                    dialog.dismiss();
+                                }
+                            });
+                            //Если выбран конь
+                            dialog.findViewById(R.id.imageView_settingHorse).setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    board[numberCellY][numberCellX] = new CellBoard(true,true, new Horse(team));
+                                    dialog.dismiss();
+                                }
+                            });
+                            //Если выбран офицер
+                            dialog.findViewById(R.id.imageView_settingOfficer).setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    board[numberCellY][numberCellX] = new CellBoard(true,true, new Officer(team));
+                                    dialog.dismiss();
+                                }
+                            });
+                            //Если выбрана королева
+                            dialog.findViewById(R.id.imageView_settingQueen).setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    board[numberCellY][numberCellX] = new CellBoard(true,true, new Queen(team));
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+
+                        /**Делаем отправку хода на сервер*/
                     }
 
                     //Сбрасываем подсветку возможного хода (т.к. игрок сейчас либо походил, либо нажал на пустую клетку)

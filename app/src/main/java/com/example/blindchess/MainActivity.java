@@ -1,3 +1,4 @@
+/**Класс главной активности*/
 package com.example.blindchess;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -5,6 +6,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.Bundle;
+
 
 public class MainActivity extends AppCompatActivity {
 
