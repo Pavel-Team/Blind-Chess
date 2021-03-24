@@ -2,19 +2,26 @@
 package com.example.blindchess.ui.game;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Build;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
+import com.example.blindchess.MainActivity;
 import com.example.blindchess.R;
 import com.example.blindchess.ui.game.figure.Elephant;
 import com.example.blindchess.ui.game.figure.Figure;
 import com.example.blindchess.ui.game.figure.Horse;
+import com.example.blindchess.ui.game.figure.King;
 import com.example.blindchess.ui.game.figure.Officer;
 import com.example.blindchess.ui.game.figure.Pawn;
 import com.example.blindchess.ui.game.figure.Queen;
@@ -39,6 +46,8 @@ public class BoardView extends View {
     private Figure figure;                                       //Объект фигуры в данной клетке (используется для определения типа фигур (конь, пешка и тд) в методе OnDraw())
 
     private boolean isMyMove;                                    //Является ли текущий ход - ходом пользователя (если я хожу - true, если ходит противник - false)
+    private boolean isWhiteWin;                                  //Проверка на победу белыми (является ли черный король погибшим)
+    private boolean isBlackWin;                                  //Проверка на победу черными (является ли белый король погибшим)
     private int numberCellX;                                     //Номер клетки по X, на которую последний раз нажал пользователь (от 0 до 7)
     private int numberCellY;                                     //Номер клетки по Y, на которую последний раз нажал пользователь (от 0 до 7)
 
@@ -119,53 +128,119 @@ public class BoardView extends View {
                 } else {
                     //Проверяем, есть ли у данной клетки isCanMove (если да - изменили состояние доски (переместили фигуру), если нет - ничего не делаем)
                     if (cell.isCanMove()) {
+                        //ЗДЕСЬ ДЕЛАЕТСЯ ХОД
+
+                        //Проверка на мат противнику (свое поражение проверяется при получении ответа о сервере о новом ходе)
+                        if (board[numberCellY][numberCellX].isBusy() && board[numberCellY][numberCellX].getFigure() instanceof King)
+                            if (team.equals("WHITE"))
+                                isWhiteWin = true;
+                            else
+                                isBlackWin = true;
+
                         //Меняем состояние доски (ХОД СДЕЛАН)
                         board[numberCellY][numberCellX] = board[lastNumberCellY][lastNumberCellX];
                         board[lastNumberCellY][lastNumberCellX] = new CellBoard(false,false,null);
 
+                        /**____________Проверки на прохождение пешки до конца поля и рокировку_______________*/
                         //Проверка, был ли этот ход - ходом пешки до конца доски (то есть нужен ли нам вызов всплывающего окна с выбором фигуры перед отправкой хода на сервер)
                         if (numberCellY == 0 && board[numberCellY][numberCellX].getFigure() instanceof Pawn) {
-                            Dialog dialog = new Dialog(getContext());
+                            Dialog dialog = new Dialog(getContext(), R.style.SemiTransparentDialogStyle);
                             dialog.setContentView(R.layout.dialog_view_selecting_figure);
                             dialog.setCanceledOnTouchOutside(false);
                             dialog.setCancelable(false);
+                            //Устанавливаем в зависимости от цвета команды соответствующие спрайты в ImageView
+                            ImageView imageViewElephant = dialog.findViewById(R.id.imageView_settingElephant);
+                            ImageView imageViewHorse = dialog.findViewById(R.id.imageView_settingHorse);
+                            ImageView imageViewOfficer = dialog.findViewById(R.id.imageView_settingOfficer);
+                            ImageView imageViewQueen = dialog.findViewById(R.id.imageView_settingQueen);
+                            if (team.equals("WHITE")) {
+                                imageViewElephant.setImageBitmap(spritesFigures[1]);
+                                imageViewHorse.setImageBitmap(spritesFigures[2]);
+                                imageViewOfficer.setImageBitmap(spritesFigures[3]);
+                                imageViewQueen.setImageBitmap(spritesFigures[4]);
+                            } else {
+                                imageViewElephant.setImageBitmap(spritesFigures[7]);
+                                imageViewHorse.setImageBitmap(spritesFigures[8]);
+                                imageViewOfficer.setImageBitmap(spritesFigures[9]);
+                                imageViewQueen.setImageBitmap(spritesFigures[10]);
+                            }
+                            //Отображаем окно
                             dialog.show();
 
                             //Если выбран слон
-                            dialog.findViewById(R.id.imageView_settingElphant).setOnClickListener(new OnClickListener() {
+                            imageViewElephant.setOnClickListener(new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     board[numberCellY][numberCellX] = new CellBoard(true,true, new Elephant(team));
                                     dialog.dismiss();
+                                    //isMyMove = false;
+                                    /**Делаем отправку хода на сервер*/
+                                    invalidate();
                                 }
                             });
                             //Если выбран конь
-                            dialog.findViewById(R.id.imageView_settingHorse).setOnClickListener(new OnClickListener() {
+                            imageViewHorse.setOnClickListener(new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     board[numberCellY][numberCellX] = new CellBoard(true,true, new Horse(team));
                                     dialog.dismiss();
+                                    //isMyMove = false;
+                                    /**Делаем отправку хода на сервер*/
+                                    invalidate();
                                 }
                             });
                             //Если выбран офицер
-                            dialog.findViewById(R.id.imageView_settingOfficer).setOnClickListener(new OnClickListener() {
+                            imageViewOfficer.setOnClickListener(new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     board[numberCellY][numberCellX] = new CellBoard(true,true, new Officer(team));
                                     dialog.dismiss();
+                                    //isMyMove = false;
+                                    /**Делаем отправку хода на сервер*/
+                                    invalidate();
                                 }
                             });
                             //Если выбрана королева
-                            dialog.findViewById(R.id.imageView_settingQueen).setOnClickListener(new OnClickListener() {
+                            imageViewQueen.setOnClickListener(new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     board[numberCellY][numberCellX] = new CellBoard(true,true, new Queen(team));
                                     dialog.dismiss();
+                                    //isMyMove = false;
+                                    /**Делаем отправку хода на сервер*/
+                                    invalidate();
                                 }
                             });
+
+                            //Ждем пока пользователь выберет фигуру, не отправляя ничего на сервер и не перерисовывая
+                            return super.onTouchEvent(event);
                         }
 
+                        //Проверка был ли этот ход королем (для учета рокировки)
+                        if (lastNumberCellX == 4 && lastNumberCellY == 7 && board[numberCellY][numberCellX].getFigure() instanceof King) {
+                            ((King) board[numberCellY][numberCellX].getFigure()).setCastling(false);
+
+                            //Если король сделал рокировку - перемещаем соответствующую ладью
+                            if (numberCellX == 6) {
+                                board[7][5] = board[7][7];
+                                board[7][7] = new CellBoard(false,false,null);
+                                /**Делаем отправку хода на сервер*/
+                            } else if (numberCellX == 2) {
+                                board[7][3] = board[7][0];
+                                board[7][0] = new CellBoard(false,false,null);
+                                /**Делаем отправку хода на сервер*/
+                            }
+
+                        }
+
+                        //Проверка был ли этот ход слоном (для учета рокировки)
+                        if (lastNumberCellY == 7 && (lastNumberCellX == 7 || lastNumberCellX == 0) && board[numberCellY][numberCellX].getFigure() instanceof Elephant)
+                            ((Elephant) board[numberCellY][numberCellX].getFigure()).setCastling(false);
+
+                        /**___________________________________________________________________________________*/
+
                         /**Делаем отправку хода на сервер*/
+                        //isMyMove = false; //Передаем ход противнику
                     }
 
                     //Сбрасываем подсветку возможного хода (т.к. игрок сейчас либо походил, либо нажал на пустую клетку)
@@ -184,6 +259,7 @@ public class BoardView extends View {
 
 
     /**Функция отрисовывающая каждую клетку доски по заданному полю Board board*/
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -193,11 +269,6 @@ public class BoardView extends View {
 
         threadCalculateVisibility = new ThreadCalculateVisibility(board, team);
         threadCalculateVisibility.execute(); //Открываем поток для расчета видимости клеток данной командой
-
-        /*Thread t1 = new ThreadDraw(context, canvas, spritesBoard, 1);
-        Thread t2 = new ThreadDraw(context, canvas, spritesBoard, 2);
-        t1.start();
-        t2.start();*/
 
         //Отрисовка доски (ВРЕМЕННО - МБ СДЕЛАТЬ ПОТОКОМ И ИЗМЕНИТЬ ЛОГИКУ)
         for (int i = 0; i < 8; i++) {
@@ -278,9 +349,37 @@ public class BoardView extends View {
         }
 
         //Отрисовка подсветки клетки
-        if (board[numberCellY][numberCellX].getFigure() != null && board[numberCellY][numberCellX].getFigure().getTeam().equals(team))
+        if (board[numberCellY][numberCellX].isBusy() && board[numberCellY][numberCellX].getFigure().getTeam().equals(team))
             canvas.drawBitmap(spritesBoard[2], numberCellX * widthCell, numberCellY * widthCell, paint);
 
+        //Проверка на победу одной из команд. Если кто-то победил - отображаем всплывающее окно с уведомлением о победе
+        if (isWhiteWin || isBlackWin) {
+            //Создаем всплывающее окно
+            Dialog dialog = new Dialog(getContext(), R.style.SemiTransparentDialogStyle);
+            dialog.setContentView(R.layout.dialog_view_result_of_game);
+
+            //Устанавливаем текст в окне
+            if ((team.equals("WHITE") && isWhiteWin) || (team.equals("BLACK") && isBlackWin)) {
+                TextView textViewResultOfGame = dialog.findViewById(R.id.text_view_result_of_game);
+                String text = "<font color=#FFFFFF>Вы</font> <font color=#30EB12>победили!</font>";
+                textViewResultOfGame.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                TextView textViewResultOfGame = dialog.findViewById(R.id.text_view_result_of_game);
+                String text = "<font color=#FFFFFF>Вы</font> <font color=#EB2400>проиграли!</font>";
+                textViewResultOfGame.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+            }
+            isMyMove = false;
+            dialog.show();
+
+            //Листенер для кнопки "Далее"
+            dialog.findViewById(R.id.button_next_in_dialog_results_of_game).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    MainActivity.getNavController().popBackStack();
+                }
+            });
+        }
 
         long endTime = System.currentTimeMillis();
         System.out.println("Время отрисовки: " + String.valueOf(endTime - startTime) + " мс");

@@ -5,7 +5,8 @@ import com.example.blindchess.ui.game.CellBoard;
 
 public class King implements Figure {
 
-    private String team; //Цвет команды фигуры (WHITE или BLACK)
+    private String team;               //Цвет команды фигуры (WHITE или BLACK)
+    private boolean isCastling = true; //Можно ли сделать рокировку (не ходила ли эта фигура раньше)
 
 
     /**Конструктор класса
@@ -65,6 +66,16 @@ public class King implements Figure {
         if (y != 0 && x != 0 && (!board[y-1][x-1].isBusy() || !board[y-1][x-1].getFigure().getTeam().equals(team)))
             board[y-1][x-1].setCanMove(true);
 
+        //Проверка на рокировку
+        if (isCastling) {
+            //Рокировка влево
+            if (board[7][0].isBusy() && board[7][0].getFigure().getTeam().equals(team) && board[7][0].getFigure() instanceof Elephant && ((Elephant) board[7][0].getFigure()).isCastling() && !board[7][1].isBusy() && !board[7][2].isBusy() && !board[7][3].isBusy())
+                board[7][2].setCanMove(true);
+            //Рокировка вправо
+            if (board[7][7].isBusy() && board[7][7].getFigure().getTeam().equals(team) && board[7][7].getFigure() instanceof Elephant && ((Elephant) board[7][7].getFigure()).isCastling() && !board[7][6].isBusy() && !board[7][5].isBusy())
+                board[7][6].setCanMove(true);
+        }
+
         return board;
     }
 
@@ -117,5 +128,16 @@ public class King implements Figure {
 
         return board;
     }
+
+
+    /**____________________ GETTER'Ы и SETTER'Ы ____________________*/
+    public boolean isCastling() {
+        return isCastling;
+    }
+
+    public void setCastling(boolean isCastling){
+        this.isCastling = isCastling;
+    }
+    /**_____________________________________________________________*/
 
 }

@@ -5,7 +5,8 @@ import com.example.blindchess.ui.game.CellBoard;
 
 public class Elephant implements Figure {
 
-    private String team; //Цвет команды фигуры (WHITE или BLACK)
+    private String team;               //Цвет команды фигуры (WHITE или BLACK)
+    private boolean isCastling = true; //Можно ли сделать рокировку (не ходила ли эта фигура раньше)
 
 
     /**Конструктор класса
@@ -146,7 +147,6 @@ public class Elephant implements Figure {
         i = x;
         while (i != 7) {
             if (!board[y][i+1].isBusy()) {
-                System.out.println("ПРАВО");
                 board[y][i+1].setVisible(true);
             } else {
                 board[y][i+1].setVisible(true);
@@ -160,5 +160,16 @@ public class Elephant implements Figure {
 
         return board;
     }
+
+
+    /**____________________ GETTER'Ы и SETTER'Ы ____________________*/
+    public boolean isCastling() {
+        return isCastling;
+    }
+
+    public void setCastling(boolean isCastling){
+        this.isCastling = isCastling;
+    }
+    /**_____________________________________________________________*/
 
 }

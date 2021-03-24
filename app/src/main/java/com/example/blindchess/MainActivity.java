@@ -10,6 +10,8 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static NavController navController; //Контроллер навигации приложения
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +19,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Создаем контроллер меню, который запускает первоначальный фрагмент (ищет в навигации) в mainContainer
-        NavController navController = Navigation.findNavController(this, R.id.main_container);
+        navController = Navigation.findNavController(this, R.id.main_container);
     }
+
+
+    /**____________________ GETTER'Ы и SETTER'Ы ____________________*/
+    public static NavController getNavController(){
+        return navController;
+    }
+    /**_____________________________________________________________*/
 
 }
