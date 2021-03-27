@@ -1,3 +1,4 @@
+/**Фрагмент с игровой комнатой*/
 package com.example.blindchess.ui.fragment;
 
 import android.os.Bundle;

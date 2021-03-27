@@ -3,4 +3,8 @@
     <string name="quick_game">Быстрая игра</string>
     <string name="dialog_viw_selecting_figure">Выберите фигуру</string>
     <string name="next">Далее</string>
+    <string name="login">Войти</string>
+    <string name="edit_password">Пароль</string>
+    <string name="edit_login">Логин</string>
+    <string name="register">Регистрация</string>
 </resources>

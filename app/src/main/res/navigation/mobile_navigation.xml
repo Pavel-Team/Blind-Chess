@@ -3,9 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/fragmentMainMenu"
+    app:startDestination="@id/fragmentLogin"
     tools:ignore="UnusedNavigation">
 
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.example.blindchess.ui.fragment.FragmentLogin"
+        android:label="Вход">
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentMainMenu"
+            app:destination="@id/fragmentMainMenu" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragmentMainMenu"

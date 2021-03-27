@@ -1,3 +1,4 @@
+/**Фрагмент главного меню*/
 package com.example.blindchess.ui.fragment;
 
 import android.os.Bundle;
