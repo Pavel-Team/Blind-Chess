@@ -9,16 +9,31 @@
     <fragment
         android:id="@+id/fragmentLogin"
         android:name="com.example.blindchess.ui.fragment.FragmentLogin"
-        android:label="Вход">
+        android:label="Вход"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentMainMenu"
+            app:destination="@id/fragmentMainMenu" />
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentRegistration"
+            app:destination="@id/fragmentRegistration" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentRegistration"
+        android:name="com.example.blindchess.ui.fragment.FragmentRegistration"
+        android:label="Регистрация"
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_fragmentRegistration_to_fragmentMainMenu"
             app:destination="@id/fragmentMainMenu" />
     </fragment>
 
     <fragment
         android:id="@+id/fragmentMainMenu"
         android:name="com.example.blindchess.ui.fragment.FragmentMainMenu"
-        android:label="FragmentMainMenu" >
+        android:label="FragmentMainMenu"
+        tools:layout="@layout/fragment_main_menu">
         <action
             android:id="@+id/action_fragmentMainMenu_to_fragmentGameRoom"
             app:destination="@id/fragmentGameRoom" />
@@ -27,6 +42,7 @@
     <fragment
         android:id="@+id/fragmentGameRoom"
         android:name="com.example.blindchess.ui.fragment.FragmentGameRoom"
-        android:label="FragmentGameRoom" />
+        android:label="FragmentGameRoom"
+        tools:layout="@layout/fragment_game_room"/>
 
 </navigation>

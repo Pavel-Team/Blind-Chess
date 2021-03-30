@@ -1,8 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Стиль загрузочного экрана -->
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@drawable/splash_screen</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/colorPrimary</item>
     </style>
     
     <!-- Базовый стиль приложения -->
@@ -11,6 +12,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/background_color</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/colorPrimary</item>
     </style>
 
     <!-- Стиль для диалоговых (всплывающих) окон -->

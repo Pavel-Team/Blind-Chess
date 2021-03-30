@@ -31,15 +31,25 @@ public class FragmentLogin extends Fragment {
 
         //Инициализируем объекты кнопок
         buttonLogin = getView().findViewById(R.id.button_login);
-        buttonRegister = getView().findViewById(R.id.button_register);
+        buttonRegister = getView().findViewById(R.id.button_registration);
 
         //Листенер для кнопки "Войти" (ВРЕМЕННО)
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(getActivity(), R.id.main_container).navigate(R.id.action_fragmentLogin_to_fragmentMainMenu);
+                //...
+                //Navigation.findNavController(getActivity(), R.id.main_container).navigate(R.id.action_fragmentLogin_to_fragmentMainMenu);
+            }
+        });
+
+        //Листенер для кнопки "Регистрация"
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(getActivity(), R.id.main_container).navigate(R.id.action_fragmentLogin_to_fragmentRegistration);
             }
         });
 
     }
+
 }

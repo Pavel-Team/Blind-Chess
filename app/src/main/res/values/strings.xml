@@ -6,5 +6,9 @@
     <string name="login">Войти</string>
     <string name="edit_password">Пароль</string>
     <string name="edit_login">Логин</string>
-    <string name="register">Регистрация</string>
+    <string name="registration">Регистрация</string>
+    <string name="text_registration_nickname">Никнейм</string>
+    <string name="complete_registration">Зарегистрироваться</string>
+    <string name="login_guest">Войти как гость</string>
+    <string name="login_google">Войти через Google</string>
 </resources>
