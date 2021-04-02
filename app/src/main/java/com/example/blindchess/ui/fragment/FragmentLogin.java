@@ -2,10 +2,12 @@
 package com.example.blindchess.ui.fragment;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +18,10 @@ import com.example.blindchess.R;
 
 public class FragmentLogin extends Fragment {
 
-    private Button buttonLogin;    //Кнопка входа
-    private Button buttonRegister; //Кнопка регистрации
+    private EditText editTextLogin;    //Поле ввода логина
+    private EditText editTextPassword; //Поле ввода пароля
+    private Button buttonLogin;        //Кнопка входа
+    private Button buttonRegister;     //Кнопка регистрации
 
 
     @Override
@@ -29,9 +33,13 @@ public class FragmentLogin extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        View thisView = getView(); //Текущий view
         //Инициализируем объекты кнопок
-        buttonLogin = getView().findViewById(R.id.button_login);
-        buttonRegister = getView().findViewById(R.id.button_registration);
+        buttonLogin = thisView.findViewById(R.id.button_login);
+        buttonRegister = thisView.findViewById(R.id.button_registration);
+        //И EditText
+        editTextLogin = thisView.findViewById(R.id.edit_text_login);
+        editTextPassword = thisView.findViewById(R.id.edit_text_password);
 
         //Листенер для кнопки "Войти" (ВРЕМЕННО)
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +55,19 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(getActivity(), R.id.main_container).navigate(R.id.action_fragmentLogin_to_fragmentRegistration);
+            }
+        });
+
+        //Обработчик последнего ентера при вводе пароля (если пользователь закончил заполнять пароль и нажал ентер) - нажимается кнопка "Войти"
+        editTextPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    //buttonName.performClick();
+                    System.out.println("Нажата кнопка входа");
+                    return true;
+                }
+                return false;
             }
         });
 

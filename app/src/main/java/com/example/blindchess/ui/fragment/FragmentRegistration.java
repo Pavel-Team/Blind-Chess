@@ -175,5 +175,18 @@ public class FragmentRegistration extends Fragment {
             public void afterTextChanged(Editable s) { }
         });
 
+        //Обработчик последнего ентера при вводе пароля (если пользователь закончил заполнять пароль и нажал ентер) - нажимается кнопка "Регистрация"
+        editTextPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    //buttonName.performClick();
+                    System.out.println("Нажата кнопка регистрации");
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 }
