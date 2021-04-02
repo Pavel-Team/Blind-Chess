@@ -11,4 +11,10 @@
     <string name="complete_registration">Зарегистрироваться</string>
     <string name="login_guest">Войти как гость</string>
     <string name="login_google">Войти через Google</string>
+    <string name="error_input_nick_size">Ник должен состоять из 4 и более символов</string>
+    <string name="error_input_login_size">Логин должен состоять из 6 и более символов</string>
+    <string name="error_input_password_size">Пароль должен состоять из 6 и более символов</string>
+    <string name="error_input_nick_symbols">Ник может состоять только из русских и английских букв, цифр и нижнего подчеркивания</string>
+    <string name="error_input_login_symbols">Логин может состоять только из английских букв, цифр и нижнего подчеркивания</string>
+    <string name="error_input_password_symbols">Пароль может состоять только из английских букв, цифр и нижнего подчеркивания</string>
 </resources>

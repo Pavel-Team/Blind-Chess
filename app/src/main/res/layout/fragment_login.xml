@@ -21,16 +21,16 @@
 
     <EditText
         android:id="@+id/edit_text_login"
+        style="@style/editTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/editTextStyle"
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/edit_text_password"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="16dp"
         android:hint="@string/edit_login"
-        android:minEms="10"/>
+        app:layout_constraintBottom_toTopOf="@id/edit_text_password"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <EditText
         android:id="@+id/edit_text_password"
@@ -44,8 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
         android:hint="@string/edit_password"
-        android:minEms="10"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/button_login"

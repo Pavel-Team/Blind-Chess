@@ -42,6 +42,8 @@
         <item name="android:background">@drawable/background_edit_text</item>
         <item name="android:padding">8dp</item>
         <item name="android:textSize">24dp</item>
+        <item name="android:ems">10</item>
+        <item name="android:inputType">text</item>
     </style>
     
     <!-- Стиль для кнопок Button-->
