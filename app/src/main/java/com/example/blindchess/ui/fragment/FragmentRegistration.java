@@ -1,6 +1,10 @@
 /**Фрагмент с окном регистрации*/
 package com.example.blindchess.ui.fragment;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,10 +22,14 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.blindchess.R;
+import com.example.blindchess.ui.sqlite.DBHelper;
 
 import java.util.regex.Pattern;
 
 public class FragmentRegistration extends Fragment {
+
+    private Context context;                   //Контекст приложения
+    private DBHelper db;                       //Объект базы данных SQLite
 
     private Button buttonCompleteRegister;     //Кнопка "Зарегистрироваться"
     private Button buttonLoginGuest;           //Кнопка "Войти как гость"
@@ -40,6 +47,61 @@ public class FragmentRegistration extends Fragment {
     private boolean isCorrectPassword = false; //Корректность введеного пароля
 
 
+    /**Функция добавления пользователя в БД SQLite
+     * На вход принимает 2 параметра:
+     * int id - ид пользователя (для гостя id = 1)
+     * String name - имя пользователя (для гостя name = Guest)
+     * Внутри происходит занесение пользователя в таблицы User и Achievement*/
+    private void addToSQLite(int id, String name){
+
+        //Получаем объекты нашей БД для дальнейшей записи информации в них
+        db = new DBHelper(context);
+        SQLiteDatabase database = db.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        //Создаем транзакцию
+        database.beginTransaction();
+        try {
+            //Заполняем таблицу User
+            contentValues.put(DBHelper.KEY_ID_USER, id);
+            contentValues.put(DBHelper.KEY_NAME_USER, name);
+            contentValues.put(DBHelper.KEY_IMAGE_NAME_USER, "image_user");
+            contentValues.put(DBHelper.KEY_RATING_USER, 0);
+            contentValues.put(DBHelper.KEY_WINS_USER, 0);
+            contentValues.put(DBHelper.KEY_DEFEATS_USER, 0);
+            contentValues.put(DBHelper.KEY_BEST_LEAGUE_USER, 10);
+            contentValues.put(DBHelper.KEY_LEAGUE_USER, 10);
+            contentValues.put(DBHelper.KEY_LEAGUE_WINS_USER, 0);
+            contentValues.put(DBHelper.KEY_LEAGUE_DEFEATS_USER, 0);
+            contentValues.put(DBHelper.KEY_IS_LOGIN_USER, 1);
+            database.insert(DBHelper.TABLE_NAME_USER, null, contentValues);
+            contentValues.clear();
+
+            //Заполняем таблицу Achievement
+            contentValues.put(DBHelper.KEY_ID_USER, id);
+            contentValues.put(DBHelper.KEY_TITLE_ACHIEVEMENT, getResources().getString(R.string.achievement_title_first_game));
+            contentValues.put(DBHelper.KEY_DESCRIPTION_ACHIEVEMENT, getResources().getString(R.string.achievement_description_first_game));
+            contentValues.put(DBHelper.KEY_IS_GET_ACHIEVEMENT, 0);
+            database.insert(DBHelper.TABLE_NAME_ACHIEVEMENT, null, contentValues);
+            contentValues.clear();
+            contentValues.put(DBHelper.KEY_ID_USER, id);
+            contentValues.put(DBHelper.KEY_TITLE_ACHIEVEMENT, getResources().getString(R.string.achievement_title_first_win));
+            contentValues.put(DBHelper.KEY_DESCRIPTION_ACHIEVEMENT, getResources().getString(R.string.achievement_description_first_win));
+            contentValues.put(DBHelper.KEY_IS_GET_ACHIEVEMENT, 0);
+            database.insert(DBHelper.TABLE_NAME_ACHIEVEMENT, null, contentValues);
+            contentValues.clear();
+
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+        }
+
+        //Закрываем соединение
+        database.close();
+        db.close();
+    }
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_registration, container, false);
@@ -50,6 +112,7 @@ public class FragmentRegistration extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        context = getContext();
         View thisView = getView(); //Текущий view
         textViewErrorInput = thisView.findViewById(R.id.text_view_error_input_in_registration);
         //Инициализируем объекты кнопок
@@ -81,7 +144,25 @@ public class FragmentRegistration extends Fragment {
         buttonLoginGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //...добавление в SQLite
+                //Проверяем, есть ли пользователь в SQLite: если есть - заходим, делая isLogin = true, иначе - заносим новые данные в БД
+                db = new DBHelper(getContext());
+                SQLiteDatabase database = db.getWritableDatabase();
+                Cursor cursor = database.query(DBHelper.TABLE_NAME_USER, new String[]{DBHelper.KEY_ID_USER}, null, null, null, null, null);
+
+                //Если пользователь есть - просто изменяем значение isLogin в таблице
+                if (cursor != null && cursor.getCount() > 0) {
+                    //...
+                } else {
+                    //Если пользователя нету - заносим новую запись в БД
+                    addToSQLite(1, "Guest");
+                }
+
+                //Закрываем соединения
+                cursor.close();
+                database.close();
+                db.close();
+
+                //Переходим на фрагмент
                 Navigation.findNavController(getActivity(), R.id.main_container).navigate(R.id.action_fragmentRegistration_to_fragmentMainMenu);
             }
         });
@@ -109,6 +190,7 @@ public class FragmentRegistration extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Если не удовлетворяет допустимым символам - выводим ошибку, иначе проверяем размер введенного сообщения
                 if (!patternNick.matcher(s).matches()) {
+                    viewCorrectnessNick.setBackgroundResource(R.drawable.vertical_red_line);
                     textViewErrorInput.setText(R.string.error_input_nick_symbols);
                 } else {
                     if (s.toString().length() < 4) {
@@ -134,6 +216,7 @@ public class FragmentRegistration extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Если не удовлетворяет допустимым символам - выводим ошибку, иначе проверяем размер введенного сообщения
                 if (!patternLoginAndPassword.matcher(s).matches()) {
+                    viewCorrectnessLogin.setBackgroundResource(R.drawable.vertical_red_line);
                     textViewErrorInput.setText(R.string.error_input_login_symbols);
                 } else {
                     if (s.toString().length() < 6) {
@@ -159,6 +242,7 @@ public class FragmentRegistration extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Если не удовлетворяет допустимым символам - выводим ошибку, иначе проверяем размер введенного сообщения
                 if (!patternLoginAndPassword.matcher(s).matches()) {
+                    viewCorrectnessPassword.setBackgroundResource(R.drawable.vertical_red_line);
                     textViewErrorInput.setText(R.string.error_input_password_symbols);
                 } else {
                     if (s.toString().length() < 6) {

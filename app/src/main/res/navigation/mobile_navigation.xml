@@ -13,7 +13,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentMainMenu"
-            app:destination="@id/fragmentMainMenu" />
+            app:destination="@id/fragmentMainMenu"
+            app:popUpTo="@id/fragmentLogin"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentRegistration"
             app:destination="@id/fragmentRegistration" />
@@ -26,7 +28,9 @@
         tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_fragmentRegistration_to_fragmentMainMenu"
-            app:destination="@id/fragmentMainMenu" />
+            app:destination="@id/fragmentMainMenu"
+            app:popUpTo="@id/fragmentLogin"
+            app:popUpToInclusive="true"/>/>
     </fragment>
 
     <fragment
@@ -37,6 +41,11 @@
         <action
             android:id="@+id/action_fragmentMainMenu_to_fragmentGameRoom"
             app:destination="@id/fragmentGameRoom" />
+        <action
+            android:id="@+id/action_fragmentMainMenu_to_fragmentLogin"
+            app:destination="@id/fragmentLogin"
+            app:popUpTo="@id/fragmentMainMenu"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
