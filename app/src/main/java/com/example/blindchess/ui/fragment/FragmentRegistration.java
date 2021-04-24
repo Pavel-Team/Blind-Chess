@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.blindchess.MainActivity;
 import com.example.blindchess.R;
 import com.example.blindchess.ui.sqlite.DBHelper;
 
@@ -47,7 +49,7 @@ public class FragmentRegistration extends Fragment {
     private boolean isCorrectPassword = false; //Корректность введеного пароля
 
 
-    /**Функция добавления пользователя в БД SQLite
+    /**Функция добавления нового пользователя в БД SQLite
      * На вход принимает 2 параметра:
      * int id - ид пользователя (для гостя id = 1)
      * String name - имя пользователя (для гостя name = Guest)
@@ -78,18 +80,20 @@ public class FragmentRegistration extends Fragment {
             contentValues.clear();
 
             //Заполняем таблицу Achievement
-            contentValues.put(DBHelper.KEY_ID_USER, id);
-            contentValues.put(DBHelper.KEY_TITLE_ACHIEVEMENT, getResources().getString(R.string.achievement_title_first_game));
-            contentValues.put(DBHelper.KEY_DESCRIPTION_ACHIEVEMENT, getResources().getString(R.string.achievement_description_first_game));
-            contentValues.put(DBHelper.KEY_IS_GET_ACHIEVEMENT, 0);
-            database.insert(DBHelper.TABLE_NAME_ACHIEVEMENT, null, contentValues);
-            contentValues.clear();
-            contentValues.put(DBHelper.KEY_ID_USER, id);
-            contentValues.put(DBHelper.KEY_TITLE_ACHIEVEMENT, getResources().getString(R.string.achievement_title_first_win));
-            contentValues.put(DBHelper.KEY_DESCRIPTION_ACHIEVEMENT, getResources().getString(R.string.achievement_description_first_win));
-            contentValues.put(DBHelper.KEY_IS_GET_ACHIEVEMENT, 0);
-            database.insert(DBHelper.TABLE_NAME_ACHIEVEMENT, null, contentValues);
-            contentValues.clear();
+            String sql = "INSERT INTO ACHIEVEMENT VALUES(?, ?, ?, ?);";
+            SQLiteStatement statement = database.compileStatement(sql);
+            statement.clearBindings(); //Очищаем все текущие привязки
+            statement.bindLong(1, id); //Привязываем данные к столбцам
+            statement.bindString(2, getResources().getString(R.string.achievement_title_first_game));
+            statement.bindString(3, getResources().getString(R.string.achievement_description_first_game));
+            statement.bindLong(4, 0);
+            statement.execute();
+            statement.clearBindings();
+            statement.bindLong(1, id);
+            statement.bindString(2, getResources().getString(R.string.achievement_title_first_win));
+            statement.bindString(3, getResources().getString(R.string.achievement_description_first_win));
+            statement.bindLong(4, 0);
+            statement.execute();
 
             database.setTransactionSuccessful();
         } finally {
@@ -148,10 +152,12 @@ public class FragmentRegistration extends Fragment {
                 db = new DBHelper(getContext());
                 SQLiteDatabase database = db.getWritableDatabase();
                 Cursor cursor = database.query(DBHelper.TABLE_NAME_USER, new String[]{DBHelper.KEY_ID_USER}, null, null, null, null, null);
-
+                cursor.moveToFirst();
                 //Если пользователь есть - просто изменяем значение isLogin в таблице
                 if (cursor != null && cursor.getCount() > 0) {
-                    //...
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DBHelper.KEY_IS_LOGIN_USER, 1);
+                    database.update(DBHelper.TABLE_NAME_USER, contentValues, DBHelper.KEY_ID_USER + "=" + String.valueOf(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_ID_USER))), null);
                 } else {
                     //Если пользователя нету - заносим новую запись в БД
                     addToSQLite(1, "Guest");

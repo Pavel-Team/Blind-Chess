@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Blind chess</string>
     <string name="quick_game">Быстрая игра</string>
+    <string name="item_feedback">Обратная связь</string>
+    <string name="item_to_back">Выйти</string>
     <string name="dialog_viw_selecting_figure">Выберите фигуру</string>
     <string name="next">Далее</string>
     <string name="login">Войти</string>
