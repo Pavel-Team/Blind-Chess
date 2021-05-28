@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
         do {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID_USER);
             int idName = cursor.getColumnIndex(DBHelper.KEY_NAME_USER);
-            int idImageName = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_USER);
+            int idImageNameBackground = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_BACKGROUND);
+            int idImageNameForeground = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_FOREGROUND);
             int idRating = cursor.getColumnIndex(DBHelper.KEY_RATING_USER);
             int idWins = cursor.getColumnIndex(DBHelper.KEY_WINS_USER);
             int idDefeats = cursor.getColumnIndex(DBHelper.KEY_DEFEATS_USER);
@@ -70,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
             int id = cursor.getInt(idIndex); //Получаем значение id по заданному индексу
             String name = cursor.getString(idName);
-            String imageName = cursor.getString(idImageName);
+            String imageNameBackground = cursor.getString(idImageNameBackground);
+            String imageNameForeground = cursor.getString(idImageNameForeground);
             int rating = cursor.getInt(idRating);
             int wins = cursor.getInt(idWins);
             int defeats = cursor.getInt(idDefeats);
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             int isLogin = cursor.getInt(idIsLogin);
 
             //Вывод таблицы
-            System.out.println(String.valueOf(id) + " | " + name + " | " + imageName + " | " + String.valueOf(rating) + " | " + String.valueOf(wins) + " | "
+            System.out.println(String.valueOf(id) + " | " + name + " | " + imageNameBackground + " | " + imageNameForeground + " | " + String.valueOf(rating) + " | " + String.valueOf(wins) + " | "
                     + String.valueOf(defeats) + " | " + String.valueOf(bestLeague) + " | " + String.valueOf(league) + " | " + String.valueOf(leagueWins) + " | "
                     + String.valueOf(leagueDefeats) + " | " + String.valueOf(isLogin));
         } while(cursor.moveToNext());

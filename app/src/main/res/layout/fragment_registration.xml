@@ -150,9 +150,8 @@
         android:id="@+id/button_complete_registration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/buttonStyle"
+        style="@style/beautifulButton"
 
-        android:background="@drawable/background_big_button"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -15,4 +15,5 @@
     <color name="red">#ff0000</color>
     <color name="green">#00ff08</color>
     <color name="gray">#bdbdbd</color>
+    <color name="semitransparent_light_blue">#381759ff</color>
 </resources>

@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.example.blindchess.MainActivity;
 import com.example.blindchess.R;
 import com.example.blindchess.ui.sqlite.DBHelper;
 
@@ -67,12 +66,13 @@ public class FragmentRegistration extends Fragment {
             //Заполняем таблицу User
             contentValues.put(DBHelper.KEY_ID_USER, id);
             contentValues.put(DBHelper.KEY_NAME_USER, name);
-            contentValues.put(DBHelper.KEY_IMAGE_NAME_USER, "image_user");
+            contentValues.put(DBHelper.KEY_IMAGE_NAME_BACKGROUND, "background_board");
+            contentValues.put(DBHelper.KEY_IMAGE_NAME_FOREGROUND, "foreground_pawn_white");
             contentValues.put(DBHelper.KEY_RATING_USER, 0);
             contentValues.put(DBHelper.KEY_WINS_USER, 0);
             contentValues.put(DBHelper.KEY_DEFEATS_USER, 0);
-            contentValues.put(DBHelper.KEY_BEST_LEAGUE_USER, 10);
-            contentValues.put(DBHelper.KEY_LEAGUE_USER, 10);
+            contentValues.put(DBHelper.KEY_BEST_LEAGUE_USER, 15);
+            contentValues.put(DBHelper.KEY_LEAGUE_USER, 15);
             contentValues.put(DBHelper.KEY_LEAGUE_WINS_USER, 0);
             contentValues.put(DBHelper.KEY_LEAGUE_DEFEATS_USER, 0);
             contentValues.put(DBHelper.KEY_IS_LOGIN_USER, 1);

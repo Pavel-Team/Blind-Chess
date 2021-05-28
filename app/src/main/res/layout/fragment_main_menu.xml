@@ -6,25 +6,344 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="MissingDefaultResource">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/layout_menu_menu"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="Главное меню"
-        android:textSize="30sp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-    <Button
-        android:id="@+id/button_quick_game"
-        android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_info_about_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/image_view_user"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/layout_text_info_about_user"
+                app:layout_constraintBottom_toBottomOf="@id/layout_text_info_about_user"
+                app:layout_constraintHorizontal_weight="1"
+                android:scaleType="centerInside"/>
+
+            <LinearLayout
+                android:id="@+id/layout_text_info_about_user"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintLeft_toRightOf="@id/image_view_user"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_weight="3"
+                android:orientation="vertical"
+                android:paddingLeft="7dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_view_user_name"
+                        style="@style/TitleTextViewStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_gravity="center_vertical"
+                        android:textColorHint="@color/white"
+                        android:textSize="24sp" />
+
+                    <ImageButton
+                        android:id="@+id/button_edit_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginLeft="5dp"
+                        android:background="@color/null_color"
+                        android:src="@drawable/icon_pencil"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/textViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center_vertical"
+                                android:text="id:"
+                                android:paddingBottom="5dp"
+                                android:textColor="@color/gray"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/text_view_id_user"
+                                style="@style/textViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="5dp"
+                                android:paddingBottom="5dp"
+                                android:textColor="@color/gray"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/textViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center_vertical"
+                                android:hint="@string/league"
+                                android:textColorHint="@color/white"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/text_view_league_user"
+                                style="@style/textViewStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="5dp"
+                                android:textColorHint="@color/white"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/image_view_league"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:layout_weight="3"
+                        android:scaleType="centerInside"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view_menu_line_1"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+
+            android:layout_marginTop="15dp"
+            android:background="@drawable/horizontal_blue_line"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_info_about_user" />
+
+        <LinearLayout
+            android:id="@+id/layout_menu_buttons_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_menu_line_1">
+
+            <Button
+                android:id="@+id/button_friends"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center_horizontal"
+                android:drawableRight="@drawable/icon_button_friends"
+                android:text="@string/button_friends"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button_achievements"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:drawableRight="@drawable/icon_button_achievements"
+                android:text="@string/button_achievements"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_menu_line_2"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+
+            android:layout_marginTop="15dp"
+            android:background="@drawable/horizontal_blue_line"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_menu_buttons_friends" />
+
+        <LinearLayout
+            android:id="@+id/layout_menu_buttons_game"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_menu_line_2">
+
+            <Button
+                android:id="@+id/button_rating_game"
+                style="@style/beautifulButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+                android:drawableRight="@drawable/icon_button_rating_game"
+                android:text="@string/rating_game"
+                android:textSize="22sp" />
+
+            <Button
+                android:id="@+id/button_friend_game"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+                android:drawableRight="@drawable/icon_button_game_with_friends"
+                android:text="@string/friend_game"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button_quick_game"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+                android:drawableRight="@drawable/icon_button_quick_game"
+                android:text="@string/quick_game"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_menu_menu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:paddingTop="10dp"
-        android:text="@string/quick_game"
-        android:textSize="20sp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/item_shop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/itemStyle"
+
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/icon_shop"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/textViewStyle"
+
+                android:text="@string/shop"
+                android:textSize="20sp"
+                android:gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/vertical_gray_line"/>
+
+        <LinearLayout
+            android:id="@+id/item_inventory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/itemStyle"
+
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/icon_inventory"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/textViewStyle"
+
+                android:text="@string/inventory"
+                android:textSize="20sp"
+                android:gravity="center_horizontal"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

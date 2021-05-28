@@ -1,14 +1,11 @@
 <resources>
     <string name="app_name">Blind chess</string>
-    <string name="quick_game">Быстрая игра</string>
-    <string name="item_feedback">Обратная связь</string>
-    <string name="item_to_back">Выйти</string>
-    <string name="dialog_viw_selecting_figure">Выберите фигуру</string>
-    <string name="next">Далее</string>
+
     <string name="login">Войти</string>
     <string name="edit_password">Пароль</string>
     <string name="edit_login">Логин</string>
     <string name="registration">Регистрация</string>
+
     <string name="text_registration_nickname">Никнейм</string>
     <string name="complete_registration">Зарегистрироваться</string>
     <string name="login_guest">Войти как гость</string>
@@ -19,6 +16,20 @@
     <string name="error_input_nick_symbols">Ник может состоять только из русских и английских букв, цифр и нижнего подчеркивания</string>
     <string name="error_input_login_symbols">Логин может состоять только из английских букв, цифр и нижнего подчеркивания</string>
     <string name="error_input_password_symbols">Пароль может состоять только из английских букв, цифр и нижнего подчеркивания</string>
+
+    <string name="league">Лига:</string>
+    <string name="button_friends">Друзья онлайн</string>
+    <string name="button_achievements">Достижения</string>
+    <string name="rating_game">Рейтинговый матч</string>
+    <string name="friend_game">Играть с другом</string>
+    <string name="quick_game">Быстрая игра</string>
+    <string name="item_feedback">Обратная связь</string>
+    <string name="item_to_back">Выйти</string>
+    <string name="shop">Магазин</string>
+    <string name="inventory">Инвентарь</string>
+
+    <string name="dialog_viw_selecting_figure">Выберите фигуру</string>
+    <string name="next">Далее</string>
 
     <string name="achievement_title_first_game">Первое сражение</string>
     <string name="achievement_description_first_game">Сыграть свою первую игру</string>

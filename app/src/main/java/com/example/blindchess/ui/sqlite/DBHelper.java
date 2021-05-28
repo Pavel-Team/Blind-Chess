@@ -2,38 +2,39 @@
 package com.example.blindchess.ui.sqlite;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+
 public class DBHelper extends SQLiteOpenHelper {
 
     //Константы БД
-    public static final int DATABASE_VERSION = 1;                           //Версия БД
-    public static final String DATABASE_NAME = "SQLite";                    //Имя БД
+    public static final int DATABASE_VERSION = 1;                                   //Версия БД
+    public static final String DATABASE_NAME = "SQLite";                            //Имя БД
 
     //Константы таблицы User
-    public static final String TABLE_NAME_USER = "User";                    //Название таблицы с данными о данном пользователе
-    public static final String KEY_ID_USER = "_id";                         //Имя столбца с id пользователя
-    public static final String KEY_NAME_USER = "name";                      //Имя столбца с именем пользователя
-    public static final String KEY_IMAGE_NAME_USER = "image_name";          //Имя столбца с названием аватарки пользователя
-    public static final String KEY_RATING_USER = "rating";                  //Имя столбца с ейтингом пользователя
-    public static final String KEY_WINS_USER = "wins";                      //Имя столбца с числом побед пользователя
-    public static final String KEY_DEFEATS_USER = "defeats";                //Имя столбца с числом поражений пользователя
-    public static final String KEY_BEST_LEAGUE_USER = "best_league";        //Имя столбца с лучшей лигой пользователя
-    public static final String KEY_LEAGUE_USER = "league";                  //Имя столбца с текущей лигой пользователя
-    public static final String KEY_LEAGUE_WINS_USER = "league_wins";        //Имя столбца с числом побед пользователя в текущей лиге
-    public static final String KEY_LEAGUE_DEFEATS_USER = "league_defeats";  //Имя столбца с числом поражений пользователя в текущей лиге
-    public static final String KEY_IS_LOGIN_USER = "is_login";              //Имя столбца со статусом пользователя (вошел в систему или нет)
+    public static final String TABLE_NAME_USER = "User";                            //Название таблицы с данными о данном пользователе
+    public static final String KEY_ID_USER = "_id";                                 //Имя столбца с id пользователя
+    public static final String KEY_NAME_USER = "name";                              //Имя столбца с именем пользователя
+    public static final String KEY_IMAGE_NAME_BACKGROUND = "image_name_background"; //Имя столбца с названием фона аватарки пользователя
+    public static final String KEY_IMAGE_NAME_FOREGROUND = "image_name_foreground"; //Имя столбца с названием переднего плана аватарки пользователя
+    public static final String KEY_RATING_USER = "rating";                          //Имя столбца с ейтингом пользователя
+    public static final String KEY_WINS_USER = "wins";                              //Имя столбца с числом побед пользователя
+    public static final String KEY_DEFEATS_USER = "defeats";                        //Имя столбца с числом поражений пользователя
+    public static final String KEY_BEST_LEAGUE_USER = "best_league";                //Имя столбца с лучшей лигой пользователя
+    public static final String KEY_LEAGUE_USER = "league";                          //Имя столбца с текущей лигой пользователя
+    public static final String KEY_LEAGUE_WINS_USER = "league_wins";                //Имя столбца с числом побед пользователя в текущей лиге
+    public static final String KEY_LEAGUE_DEFEATS_USER = "league_defeats";          //Имя столбца с числом поражений пользователя в текущей лиге
+    public static final String KEY_IS_LOGIN_USER = "is_login";                      //Имя столбца со статусом пользователя (вошел в систему или нет)
 
     //Константы таблицы Achievement
-    public static final String TABLE_NAME_ACHIEVEMENT = "Achievement";      //Название таблицы с достижениями пользователя
-    public static final String KEY_ID_USER_ACHIEVEMENT = "_id";              //Имя столбца с id пользователя для данного достижения
-    public static final String KEY_TITLE_ACHIEVEMENT = "title";            //Имя столбца с названием достижения
-    public static final String KEY_DESCRIPTION_ACHIEVEMENT = "description"; //Имя столбца с описанием достижения
-    public static final String KEY_IS_GET_ACHIEVEMENT = "is_get";           //Имя столбца с булевским значением, получил ли пользователь данное достижение
+    public static final String TABLE_NAME_ACHIEVEMENT = "Achievement";              //Название таблицы с достижениями пользователя
+    public static final String KEY_ID_USER_ACHIEVEMENT = "_id";                     //Имя столбца с id пользователя для данного достижения
+    public static final String KEY_TITLE_ACHIEVEMENT = "title";                     //Имя столбца с названием достижения
+    public static final String KEY_DESCRIPTION_ACHIEVEMENT = "description";         //Имя столбца с описанием достижения
+    public static final String KEY_IS_GET_ACHIEVEMENT = "is_get";                   //Имя столбца с булевским значением, получил ли пользователь данное достижение
 
 
     /**Конструктор класса
@@ -59,7 +60,8 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME_USER + "(" +
                     KEY_ID_USER + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     KEY_NAME_USER + " TEXT, " +
-                    KEY_IMAGE_NAME_USER + " TEXT, " +
+                    KEY_IMAGE_NAME_BACKGROUND + " TEXT, " +
+                    KEY_IMAGE_NAME_FOREGROUND + " TEXT, " +
                     KEY_RATING_USER + " INTEGER, " +
                     KEY_WINS_USER + " INTEGER, " +
                     KEY_DEFEATS_USER + " INTEGER, " +
