@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Blind chess</string>
 
+    <string name="title_login">Вход</string>
+    <string name="title_registration">Регистрация</string>
+    <string name="title_main_menu">Меню</string>
+    <string name="title_achievements">Достижения</string>
+    <string name="title_game_room">Игровая комната</string>
+
     <string name="login">Войти</string>
     <string name="edit_password">Пароль</string>
     <string name="edit_login">Логин</string>
@@ -33,6 +39,8 @@
 
     <string name="achievement_title_first_game">Первое сражение</string>
     <string name="achievement_description_first_game">Сыграть свою первую игру</string>
+    <string name="achievement_image_name_first_game">achievement_first_match</string>
     <string name="achievement_title_first_win">Первая победа!</string>
     <string name="achievement_description_first_win">Одержать первую победу</string>
+    <string name="achievement_image_name_first_win">achievement_first_win</string>
 </resources>

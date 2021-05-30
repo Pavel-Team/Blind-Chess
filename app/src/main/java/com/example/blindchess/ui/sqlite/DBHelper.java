@@ -34,6 +34,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String KEY_ID_USER_ACHIEVEMENT = "_id";                     //Имя столбца с id пользователя для данного достижения
     public static final String KEY_TITLE_ACHIEVEMENT = "title";                     //Имя столбца с названием достижения
     public static final String KEY_DESCRIPTION_ACHIEVEMENT = "description";         //Имя столбца с описанием достижения
+    public static final String KEY_IMAGE_NAME_ACHIEVEMENT = "image_name";           //Имя столбца с названием картинки достижения
+    public static final String KEY_USER_PROGRESS_ACHIEVEMENT = "user_progress";     //Имя столбца с прогрессом получения данного достижения пользователем
+    public static final String KEY_MAX_PROGRESS_ACHIEVEMENT = "max_progress";       //Имя столбца с необходимым прогрессом для получения данного достижения
     public static final String KEY_IS_GET_ACHIEVEMENT = "is_get";                   //Имя столбца с булевским значением, получил ли пользователь данное достижение
 
 
@@ -76,6 +79,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_ID_USER_ACHIEVEMENT + " INTEGER, " +
                     KEY_TITLE_ACHIEVEMENT + " TEXT PRIMARY KEY, " +
                     KEY_DESCRIPTION_ACHIEVEMENT + " TEXT, " +
+                    KEY_IMAGE_NAME_ACHIEVEMENT + " TEXT, " +
+                    KEY_USER_PROGRESS_ACHIEVEMENT + " INTEGER, " +
+                    KEY_MAX_PROGRESS_ACHIEVEMENT + " INTEGER, " +
                     KEY_IS_GET_ACHIEVEMENT + " INTEGER" + ")");
 
             db.setTransactionSuccessful(); //Если дошли досюда - значит транзакция прошла успешно

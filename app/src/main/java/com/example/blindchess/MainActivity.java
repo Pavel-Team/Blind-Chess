@@ -96,15 +96,22 @@ public class MainActivity extends AppCompatActivity {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID_USER_ACHIEVEMENT);
             int idTitle = cursor.getColumnIndex(DBHelper.KEY_TITLE_ACHIEVEMENT);
             int idDescription = cursor.getColumnIndex(DBHelper.KEY_DESCRIPTION_ACHIEVEMENT);
+            int idImageName = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_ACHIEVEMENT);
+            int idUserProgress = cursor.getColumnIndex(DBHelper.KEY_USER_PROGRESS_ACHIEVEMENT);
+            int idMaxProgress = cursor.getColumnIndex(DBHelper.KEY_MAX_PROGRESS_ACHIEVEMENT);
             int idIsGetAchievement = cursor.getColumnIndex(DBHelper.KEY_IS_GET_ACHIEVEMENT);
 
             int id = cursor.getInt(idIndex); //Получаем значение id по заданному индексу
             String title = cursor.getString(idTitle);
             String description = cursor.getString(idDescription);
+            String image_name = cursor.getString(idImageName);
+            int userProgress = cursor.getInt(idUserProgress);
+            int maxProgress = cursor.getInt(idMaxProgress);
             int isGetAchievement = cursor.getInt(idIsGetAchievement);
 
             //Вывод таблицы
-            System.out.println(String.valueOf(id) + " | " + title + " | " + description + " | " + String.valueOf(isGetAchievement));
+            System.out.println(String.valueOf(id) + " | " + title + " | " + description + " | " + image_name + " | "
+                    + String.valueOf(userProgress) + " | " + String.valueOf(maxProgress) + " | "+ String.valueOf(isGetAchievement));
         } while(cursor.moveToNext());
         cursor.close();
 

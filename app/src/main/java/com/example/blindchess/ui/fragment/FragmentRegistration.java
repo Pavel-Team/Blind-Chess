@@ -53,7 +53,7 @@ public class FragmentRegistration extends Fragment {
      * int id - ид пользователя (для гостя id = 1)
      * String name - имя пользователя (для гостя name = Guest)
      * Внутри происходит занесение пользователя в таблицы User и Achievement*/
-    private void addToSQLite(int id, String name){
+    private void addNewUserToSQLite(int id, String name){
 
         //Получаем объекты нашей БД для дальнейшей записи информации в них
         db = new DBHelper(context);
@@ -80,19 +80,25 @@ public class FragmentRegistration extends Fragment {
             contentValues.clear();
 
             //Заполняем таблицу Achievement
-            String sql = "INSERT INTO ACHIEVEMENT VALUES(?, ?, ?, ?);";
+            String sql = "INSERT INTO ACHIEVEMENT VALUES(?, ?, ?, ?, ?, ?, ?);";
             SQLiteStatement statement = database.compileStatement(sql);
             statement.clearBindings(); //Очищаем все текущие привязки
             statement.bindLong(1, id); //Привязываем данные к столбцам
             statement.bindString(2, getResources().getString(R.string.achievement_title_first_game));
             statement.bindString(3, getResources().getString(R.string.achievement_description_first_game));
-            statement.bindLong(4, 0);
+            statement.bindString(4, getResources().getString(R.string.achievement_image_name_first_game));
+            statement.bindLong(5, 0);
+            statement.bindLong(6, 1);
+            statement.bindLong(7, 0);
             statement.execute();
             statement.clearBindings();
             statement.bindLong(1, id);
             statement.bindString(2, getResources().getString(R.string.achievement_title_first_win));
             statement.bindString(3, getResources().getString(R.string.achievement_description_first_win));
-            statement.bindLong(4, 0);
+            statement.bindString(4, getResources().getString(R.string.achievement_image_name_first_win));
+            statement.bindLong(5, 0);
+            statement.bindLong(6, 1);
+            statement.bindLong(7, 0);
             statement.execute();
 
             database.setTransactionSuccessful();
@@ -160,7 +166,7 @@ public class FragmentRegistration extends Fragment {
                     database.update(DBHelper.TABLE_NAME_USER, contentValues, DBHelper.KEY_ID_USER + "=" + String.valueOf(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_ID_USER))), null);
                 } else {
                     //Если пользователя нету - заносим новую запись в БД
-                    addToSQLite(1, "Guest");
+                    addNewUserToSQLite(1, "Guest");
                 }
 
                 //Закрываем соединения

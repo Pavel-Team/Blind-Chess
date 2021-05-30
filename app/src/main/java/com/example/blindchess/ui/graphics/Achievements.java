@@ -4,6 +4,8 @@ package com.example.blindchess.ui.graphics;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.example.blindchess.R;
+
 
 public class Achievements {
 
@@ -18,14 +20,18 @@ public class Achievements {
     }
 
 
-    /**Функция получения Bitmap данного достижения по заданному titleAchievement
+    /**Функция получения R.drawable изображения данного достижения по заданному titleAchievement
      * На вход принимает 1 параметр:
      * String titleAchievement - название достижения
-     * Функция возвращает Bitmap - Bitmap заданного достижения*/
-    public Bitmap getBitmapAchievement(String titleAchievement) {
+     * Функция возвращает int - int id drawable-изображения заданного достижения*/
+    public int getBitmapAchievement(String titleAchievement) {
         switch (titleAchievement) {
+            case "achievement_first_match":
+                return R.drawable.achievement_first_match;
+            case "achievement_first_win":
+                return R.drawable.icon_achievements;
             default:
-                return null;
+                return 0;
         }
     }
 

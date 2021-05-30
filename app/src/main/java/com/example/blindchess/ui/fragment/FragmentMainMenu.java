@@ -89,23 +89,31 @@ public class FragmentMainMenu extends Fragment {
         Cursor cursor = database.query(DBHelper.TABLE_NAME_USER, null, null, null, null, null, null);
         cursor.moveToFirst();
 
-        int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID_USER);
-        int idName = cursor.getColumnIndex(DBHelper.KEY_NAME_USER);
-        int idImageNameBackground = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_BACKGROUND);
-        int idImageNameForeground = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_FOREGROUND);
-        int idRating = cursor.getColumnIndex(DBHelper.KEY_RATING_USER);
-        int idLeague = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_USER);
-        int idLeagueWins = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_WINS_USER);
-        int idLeagueDefeats = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_DEFEATS_USER);
+        //Создаем транзакцию
+        database.beginTransaction();
+        try {
+            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID_USER);
+            int idName = cursor.getColumnIndex(DBHelper.KEY_NAME_USER);
+            int idImageNameBackground = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_BACKGROUND);
+            int idImageNameForeground = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_FOREGROUND);
+            int idRating = cursor.getColumnIndex(DBHelper.KEY_RATING_USER);
+            int idLeague = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_USER);
+            int idLeagueWins = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_WINS_USER);
+            int idLeagueDefeats = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_DEFEATS_USER);
 
-        idUser = cursor.getInt(idIndex);
-        nameUser = cursor.getString(idName);
-        imageNameBackgroundUser = cursor.getString(idImageNameBackground);
-        imageNameForegroundUser = cursor.getString(idImageNameForeground);
-        ratingUser = cursor.getInt(idRating);
-        leagueUser = cursor.getInt(idLeague);
-        leagueWinsUser = cursor.getInt(idLeagueWins);
-        leagueDefeatsUser = cursor.getInt(idLeagueDefeats);
+            idUser = cursor.getInt(idIndex);
+            nameUser = cursor.getString(idName);
+            imageNameBackgroundUser = cursor.getString(idImageNameBackground);
+            imageNameForegroundUser = cursor.getString(idImageNameForeground);
+            ratingUser = cursor.getInt(idRating);
+            leagueUser = cursor.getInt(idLeague);
+            leagueWinsUser = cursor.getInt(idLeagueWins);
+            leagueDefeatsUser = cursor.getInt(idLeagueDefeats);
+
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+        }
 
         cursor.close();
         database.close();
@@ -214,11 +222,19 @@ public class FragmentMainMenu extends Fragment {
         initViews(); //Инициализируем все необходимы View разметки данного экрана
         setInformationAboutUser(); //Заполняем информацию о пользователе в соответствующие View
 
-        //Устанавливаем Listener для кнопки быстрой игры
+        //Устанавливаем Listener для кнопки "Быстрая игра"
         buttonQuickGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_fragmentMainMenu_to_fragmentGameRoom);
+            }
+        });
+
+        //Устнавливаем Listener для кнопки "Достижения"
+        buttonAchievements.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_fragmentMainMenu_to_fragmentAchievements);
             }
         });
 
