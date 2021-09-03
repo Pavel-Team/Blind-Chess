@@ -31,7 +31,7 @@ import androidx.navigation.Navigation;
 
 import com.example.blindchess.R;
 import com.example.blindchess.ui.graphics.User;
-import com.example.blindchess.ui.sqlite.DBHelper;
+import com.example.blindchess.sqlite.DBHelper;
 
 
 public class FragmentMainMenu extends Fragment {
@@ -83,7 +83,7 @@ public class FragmentMainMenu extends Fragment {
     /**Функция установки информации о пользователе на основе данных из SQLite*/
     public void setInformationAboutUser(){
 
-        //Берем данные из БД
+        /*//Берем данные из БД
         DBHelper db = new DBHelper(getContext());
         SQLiteDatabase database = db.getReadableDatabase();
         Cursor cursor = database.query(DBHelper.TABLE_NAME_USER, null, null, null, null, null, null);
@@ -125,7 +125,7 @@ public class FragmentMainMenu extends Fragment {
         textViewIdUser.setText(String.valueOf(idUser));
         textViewLeagueUser.setText(String.valueOf(leagueUser));
         setAvatarUser(imageNameBackgroundUser, imageNameForegroundUser);
-        setImageViewLeague(leagueUser);
+        setImageViewLeague(leagueUser);*/
     }
 
 
@@ -260,6 +260,10 @@ public class FragmentMainMenu extends Fragment {
 
             //Если нажат пункт "Выйти"
             case R.id.item_to_back:
+
+                //ЕСЛИ БЫЛ НЕ ГОСТЬ УДАЛЯЕМ ЗАПИСЬ ИЗ SQLITE, ИНАЧЕ
+                //...
+
                 //Изменяем значение isLogin в SQLite на 0
                 DBHelper db = new DBHelper(getContext());
                 SQLiteDatabase database = db.getWritableDatabase();

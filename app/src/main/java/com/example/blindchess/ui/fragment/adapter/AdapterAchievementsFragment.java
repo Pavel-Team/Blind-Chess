@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.blindchess.R;
-import com.example.blindchess.ui.DTO.AchievementDTO;
+import com.example.blindchess.model.Achievement;
 import com.example.blindchess.ui.graphics.Achievements;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class AdapterAchievementsFragment extends BaseAdapter {
 
     private Context context;                            //Контекст приложения
-    private ArrayList<AchievementDTO> listAchievements; //Лист со всеми достижениями игрока
+    private ArrayList<Achievement> listAchievements;    //Лист со всеми достижениями игрока
     private LayoutInflater layoutInflater;              //Объект View, полученный из XML-разметки (item_achievement.xml)
     private Achievements graphic;                       //Объект для получения всех необходимых R.id.drawable достижений
 
@@ -30,8 +30,8 @@ public class AdapterAchievementsFragment extends BaseAdapter {
     /**Конструктор класса
      * На вход принимает 2 параметра:
      * Context context - контекст приложения
-     * ArrayList<AchievementDTO> listAchievements - Лист с названиями достижений*/
-    public AdapterAchievementsFragment(Context context, ArrayList<AchievementDTO> listAchievements){
+     * ArrayList<Achievement> listAchievements - лист с названиями достижений*/
+    public AdapterAchievementsFragment(Context context, ArrayList<Achievement> listAchievements){
         this.context = context;
         this.listAchievements = listAchievements;
         layoutInflater = LayoutInflater.from(context);
@@ -80,14 +80,14 @@ public class AdapterAchievementsFragment extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        AchievementDTO achievementDTO = this.listAchievements.get(position); //Получеем данный объект из списка всех достижений
+        Achievement achievement = this.listAchievements.get(position); //Получеем данный объект из списка всех достижений
 
         //Заполняем поля
-        Glide.with(convertView).load(graphic.getBitmapAchievement(achievementDTO.getImageName())).into(holder.imageView);
-        holder.titleView.setText(achievementDTO.getTitle());
-        holder.descriptionView.setText(achievementDTO.getDescription());
-        holder.progress.setText(String.valueOf(achievementDTO.getUserProgress()) + "/" + String.valueOf(achievementDTO.getMaxProgress()));
-        if (!achievementDTO.isGet()) {
+        Glide.with(convertView).load(graphic.getBitmapAchievement(achievement.getImageName())).into(holder.imageView);
+        holder.titleView.setText(achievement.getTitle());
+        holder.descriptionView.setText(achievement.getDescription());
+        holder.progress.setText(String.valueOf(achievement.getUserProgress()) + "/" + String.valueOf(achievement.getMaxProgress()));
+        if (achievement.getUserProgress() < achievement.getMaxProgress()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.layout.setForeground(context.getDrawable(R.drawable.background_lock));
             }

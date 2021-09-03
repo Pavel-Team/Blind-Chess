@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">Blind chess</string>
 
+    <string name="block_function">Функция временно недоступна(</string>
+    <string name="error_server">Сервер погиб, но обещал воскреснуть(</string>
+
     <string name="title_login">Вход</string>
     <string name="title_registration">Регистрация</string>
     <string name="title_main_menu">Меню</string>
     <string name="title_achievements">Достижения</string>
     <string name="title_game_room">Игровая комната</string>
+    <string name="error_login_email">Пользователь не найден</string>
+    <string name="error_login_password">Неправильный пароль</string>
 
     <string name="login">Войти</string>
     <string name="edit_password">Пароль</string>
@@ -22,6 +27,9 @@
     <string name="error_input_nick_symbols">Ник может состоять только из русских и английских букв, цифр и нижнего подчеркивания</string>
     <string name="error_input_login_symbols">Логин может состоять только из английских букв, цифр и нижнего подчеркивания</string>
     <string name="error_input_password_symbols">Пароль может состоять только из английских букв, цифр и нижнего подчеркивания</string>
+    <string name="error_input">Некорректный ввод данных</string>
+    <string name="error_name">Пользователь с таким именем уже существует</string>
+    <string name="error_email">Пользователь с таким email уже существует</string>
 
     <string name="league">Лига:</string>
     <string name="button_friends">Друзья онлайн</string>
@@ -37,6 +45,7 @@
     <string name="dialog_viw_selecting_figure">Выберите фигуру</string>
     <string name="next">Далее</string>
 
+    <string name="get_achievement">Получено новое достижение!</string>
     <string name="achievement_title_first_game">Первое сражение</string>
     <string name="achievement_description_first_game">Сыграть свою первую игру</string>
     <string name="achievement_image_name_first_game">achievement_first_match</string>

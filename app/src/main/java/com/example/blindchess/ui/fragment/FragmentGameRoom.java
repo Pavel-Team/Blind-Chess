@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.blindchess.R;
-import com.example.blindchess.ui.game.BoardView;
+import com.example.blindchess.game.BoardView;
 
 public class FragmentGameRoom extends Fragment {
 

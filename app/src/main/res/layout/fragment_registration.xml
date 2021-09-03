@@ -1,216 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
+    <data>
+        <variable
+            name="registrationViewModel"
+            type="com.example.blindchess.viewModel.RegistrationViewModel" />
 
-    <TextView
-        android:id="@+id/text_view_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/TitleTextViewStyle"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/registration"
-        android:textSize="50sp"
-        android:layout_marginTop="10dp"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_registration_nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_registration"
-        android:layout_marginTop="20dp">
-
-        <EditText
-            android:id="@+id/edit_text_registration_nick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/editTextStyle"
-
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:hint="@string/text_registration_nickname"
-            android:inputType="text"
-            android:maxLength="30"/>
-
-        <View
-            android:id="@+id/view_correctness_nickname"
-            android:layout_width="2.3dp"
-            android:layout_height="0dp"
-
-            android:background="@drawable/vertical_gray_line"
-            app:layout_constraintLeft_toRightOf="@id/edit_text_registration_nick"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_registration_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_registration_nickname"
-        android:layout_marginTop="20dp">
-
-        <EditText
-            android:id="@+id/edit_text_registration_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/editTextStyle"
-
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:hint="@string/edit_login"
-            android:inputType="text"
-            android:maxLength="30"/>
-
-        <View
-            android:id="@+id/view_correctness_login"
-            android:layout_width="2.3dp"
-            android:layout_height="0dp"
-
-            android:background="@drawable/vertical_gray_line"
-            app:layout_constraintLeft_toRightOf="@id/edit_text_registration_login"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_registration_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_registration_login"
-        android:layout_marginTop="20dp">
-
-        <EditText
-            android:id="@+id/edit_text_registration_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/editTextStyle"
-
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:hint="@string/edit_password"
-            android:maxLength="30"/>
-
-        <View
-            android:id="@+id/view_correctness_password"
-            android:layout_width="2.3dp"
-            android:layout_height="0dp"
-
-            android:background="@drawable/vertical_gray_line"
-            app:layout_constraintLeft_toRightOf="@id/edit_text_registration_password"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/text_view_error_input_in_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/textViewStyle"
-
-        app:layout_constraintLeft_toLeftOf="@id/layout_registration_password"
-        app:layout_constraintRight_toRightOf="@id/layout_registration_password"
-        app:layout_constraintTop_toBottomOf="@id/layout_registration_password"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/red"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:paddingLeft="40dp"
-        android:paddingRight="30dp"/>
-
-    <Button
-        android:id="@+id/button_complete_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/beautifulButton"
-
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_error_input_in_registration"
-        android:layout_marginTop="5dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="13dp"
-        android:text="@string/complete_registration"/>
+        <variable
+            name="registrationFragment"
+            type="com.example.blindchess.ui.fragment.FragmentRegistration" />
+    </data>
 
 
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        android:background="@drawable/horizontal_blue_line"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/layout_bottom_registration"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
+        <TextView
+            android:id="@+id/text_view_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TitleTextViewStyle"
 
-    <LinearLayout
-        android:id="@+id/layout_bottom_registration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="@string/registration"
+            android:textSize="50sp"
+            android:layout_marginTop="10dp"/>
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_registration_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_registration"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/edit_text_registration_nick"
+                android:text="@={registrationViewModel.liveData.nameRegistration}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/editTextStyle"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:hint="@string/text_registration_nickname"
+                android:inputType="text"
+                android:maxLength="30"
+                android:afterTextChanged="@{() -> registrationFragment.onTextChangedName()}"/>
+
+            <View
+                android:id="@+id/view_correctness_nickname"
+                android:layout_width="2.3dp"
+                android:layout_height="0dp"
+
+                android:background="@drawable/vertical_gray_line"
+                app:layout_constraintLeft_toRightOf="@id/edit_text_registration_nick"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_registration_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_registration_nickname"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/edit_text_registration_login"
+                android:text="@={registrationViewModel.liveData.emailRegistration}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/editTextStyle"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:hint="@string/edit_login"
+                android:inputType="text"
+                android:maxLength="30"
+                android:afterTextChanged="@{() -> registrationFragment.onTextChangedEmail()}"/>
+
+            <View
+                android:id="@+id/view_correctness_login"
+                android:layout_width="2.3dp"
+                android:layout_height="0dp"
+
+                android:background="@drawable/vertical_gray_line"
+                app:layout_constraintLeft_toRightOf="@id/edit_text_registration_login"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_registration_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_registration_login"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/edit_text_registration_password"
+                android:text="@={registrationViewModel.liveData.passwordRegistration}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/editTextStyle"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:hint="@string/edit_password"
+                android:maxLength="30"
+                android:afterTextChanged="@{() -> registrationFragment.onTextChangedPassword()}"/>
+
+            <View
+                android:id="@+id/view_correctness_password"
+                android:layout_width="2.3dp"
+                android:layout_height="0dp"
+
+                android:background="@drawable/vertical_gray_line"
+                app:layout_constraintLeft_toRightOf="@id/edit_text_registration_password"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_view_error_input_in_registration"
+            android:text="@{registrationViewModel.liveData.errorInputRegistration}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textViewStyle"
+
+            app:layout_constraintLeft_toLeftOf="@id/layout_registration_password"
+            app:layout_constraintRight_toRightOf="@id/layout_registration_password"
+            app:layout_constraintTop_toBottomOf="@id/layout_registration_password"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/red"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:paddingLeft="40dp"
+            android:paddingRight="30dp"/>
 
         <Button
-            android:id="@+id/button_login_guest"
+            android:id="@+id/button_complete_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/beautifulButton"
+
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_error_input_in_registration"
+            android:layout_marginTop="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="13dp"
+            android:text="@string/complete_registration"
+            android:onClick="@{() -> registrationFragment.onClickButtonRegistration()}"/>
+
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/buttonStyle"
+            android:layout_height="3dp"
 
-            android:layout_weight="1"
-            android:text="@string/login_guest"
-            android:textSize="14sp"
-            android:layout_marginRight="2dp"/>
+            android:background="@drawable/horizontal_blue_line"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/layout_bottom_registration"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
 
-        <Button
-            android:id="@+id/button_login_google"
+        <LinearLayout
+            android:id="@+id/layout_bottom_registration"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/buttonStyle"
+            android:layout_height="wrap_content"
 
-            android:layout_weight="1"
-            android:text="@string/login_google"
-            android:textSize="14sp"
-            android:layout_marginLeft="2dp"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/button_login_guest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/buttonStyle"
+
+                android:layout_weight="1"
+                android:text="@string/login_guest"
+                android:textSize="14sp"
+                android:layout_marginRight="2dp"
+                android:onClick="@{() -> registrationFragment.onClickButtonLoginGuest()}"/>
+
+            <Button
+                android:id="@+id/button_login_google"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/buttonStyle"
+
+                android:layout_weight="1"
+                android:text="@string/login_google"
+                android:textSize="14sp"
+                android:layout_marginLeft="2dp"
+                android:onClick="@{() -> registrationFragment.onClickButtonLoginGoogle()}"/>
+
+        </LinearLayout>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

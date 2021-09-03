@@ -1,87 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+<layout>
+    <data>
+        <variable
+            name="loginViewModel"
+            type="com.example.blindchess.viewModel.LoginViewModel" />
 
-    <TextView
-        android:id="@+id/text_view_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/TitleTextViewStyle"
+        <variable
+            name="loginFragment"
+            type="com.example.blindchess.ui.fragment.FragmentLogin" />
+    </data>
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/edit_text_login"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/login"
-        android:textSize="60sp"/>
 
-    <EditText
-        android:id="@+id/edit_text_login"
-        style="@style/editTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginBottom="16dp"
-        android:hint="@string/edit_login"
-        app:layout_constraintBottom_toTopOf="@id/edit_text_password"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:maxLength="30"/>
-
-    <EditText
-        android:id="@+id/edit_text_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/editTextStyle"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
-        android:hint="@string/edit_password"
-        android:inputType="textPassword"
-        android:maxLength="30"/>
-
-    <Button
-        android:id="@+id/button_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/buttonStyle"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_password"
-        android:layout_marginTop="10dp"
-        android:text="@string/login"/>
-
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical">
 
-        android:background="@drawable/horizontal_blue_line"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/button_registration"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"/>
+        <TextView
+            android:id="@+id/text_view_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TitleTextViewStyle"
 
-    <Button
-        android:id="@+id/button_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/buttonStyle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/edit_text_login"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/login"
+            android:textSize="60sp"/>
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/registration"
-        android:layout_marginBottom="10dp"/>
+        <EditText
+            android:id="@+id/edit_text_login"
+            android:text="@={loginViewModel.liveData.emailLogin}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/editTextStyle"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginBottom="16dp"
+            android:hint="@string/edit_login"
+            app:layout_constraintBottom_toTopOf="@id/edit_text_password"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:maxLength="30"/>
+
+        <EditText
+            android:id="@+id/edit_text_password"
+            android:text="@={loginViewModel.liveData.passwordLogin}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/editTextStyle"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
+            android:hint="@string/edit_password"
+            android:inputType="textPassword"
+            android:maxLength="30" />
+
+        <Button
+            android:id="@+id/button_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/buttonStyle"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_password"
+            android:layout_marginTop="10dp"
+            android:text="@string/login"
+            android:onClick="@{() -> loginFragment.onClickButtonLogin()}"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+
+            android:background="@drawable/horizontal_blue_line"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_registration"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
+
+        <Button
+            android:id="@+id/button_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/buttonStyle"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/registration"
+            android:layout_marginBottom="10dp"
+            android:onClick="@{() -> loginFragment.onClickButtonRegister()}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
