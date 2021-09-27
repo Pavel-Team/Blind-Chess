@@ -19,7 +19,7 @@ public class RegistrationRepository {
      * Иначе - ERROR_ACCOUNT_CREATED*/
     public String registrationUser(String name, String email, String password) {
         //Запрос...
-        //sqLiteRepository.addNewUserToSQLite(1, "PASHA");
+        sqLiteRepository.addNewUser(100500, name);
         return "ACCOUNT_CREATED";
     }
 

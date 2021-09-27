@@ -45,32 +45,6 @@ public class SQLiteRepository {
         //Создаем транзакцию
         database.beginTransaction();
         try {
-            //Заполняем таблицу Product (ВРЕМЕННО первыми тремя предметами - потом заменить на подкачку данных с сервера)
-            String sql = "INSERT INTO " + DBHelper.TABLE_NAME_PRODUCT + " VALUES(?, ?, ?, ?, ?);";
-            SQLiteStatement statement = database.compileStatement(sql);
-            statement.clearBindings(); //Очищаем все текущие привязки
-            statement.bindLong(1, 1);
-            statement.bindString(2, "Белая пешка");
-            statement.bindString(3, "FOREGROUND");
-            statement.bindLong(4, 0);
-            statement.bindString(5, "foreground_pawn_white");
-            statement.execute();
-            statement.clearBindings(); //Очищаем все текущие привязки
-            statement.bindLong(1, 13);
-            statement.bindString(2, "Обычная доска");
-            statement.bindString(3, "BACKGROUND");
-            statement.bindLong(4, 0);
-            statement.bindString(5, "background_board");
-            statement.execute();
-            statement.clearBindings(); //Очищаем все текущие привязки
-            statement.bindLong(1, 14);
-            statement.bindString(2, "Стандартный скин");
-            statement.bindString(3, "SKIN");
-            statement.bindLong(4, 0);
-            statement.bindString(5, "skin_classical_chess");
-            statement.execute();
-            statement.clearBindings(); //Очищаем все текущие привязки
-
             //Заполняем таблицу User
             contentValues.put(DBHelper.KEY_ID_USER, id);
             contentValues.put(DBHelper.KEY_NAME_USER, name);
@@ -89,31 +63,36 @@ public class SQLiteRepository {
             contentValues.clear();
 
             //Заполняем таблицу Achievement
-            String sql2 = "INSERT INTO " +  DBHelper.TABLE_NAME_ACHIEVEMENT + " VALUES(?, ?, ?, ?, ?, ?, ?);";
+            String sql2 = "INSERT INTO " +  DBHelper.TABLE_NAME_ACHIEVEMENT + "(" +
+                    DBHelper.KEY_USER_ID_ACHIEVEMENT + ", " +
+                    DBHelper.KEY_TITLE_ACHIEVEMENT + ", " +
+                    DBHelper.KEY_DESCRIPTION_ACHIEVEMENT + ", " +
+                    DBHelper.KEY_IMAGE_NAME_ACHIEVEMENT + ", " +
+                    DBHelper.KEY_USER_PROGRESS_ACHIEVEMENT + ", " +
+                    DBHelper.KEY_MAX_PROGRESS_ACHIEVEMENT + ")" +
+                    " VALUES(?, ?, ?, ?, ?, ?);";
             SQLiteStatement statement2 = database.compileStatement(sql2);
             statement2.clearBindings(); //Очищаем все текущие привязки
-            statement2.bindLong(1, 1);
-            statement2.bindLong(2, id);
+            statement2.bindLong(1, id);
             /*statement.bindString(2, getResources().getString(R.string.achievement_title_first_game));
             statement.bindString(3, getResources().getString(R.string.achievement_description_first_game));
             statement.bindString(4, getResources().getString(R.string.achievement_image_name_first_game));*/
-            statement2.bindString(3, "Первое сражение");
-            statement2.bindString(4, "Сыграть первую игру");
-            statement2.bindString(5, "achievement_first_match");
-            statement2.bindLong(6, 0);
-            statement2.bindLong(7, 1);
+            statement2.bindString(2, "Первое сражение");
+            statement2.bindString(3, "Сыграть первую игру");
+            statement2.bindString(4, "achievement_first_match");
+            statement2.bindLong(5, 0);
+            statement2.bindLong(6, 1);
             statement2.execute();
             statement2.clearBindings();
-            statement2.bindLong(1, 2);
-            statement2.bindLong(2, id);
+            statement2.bindLong(1, id);
             /*statement.bindString(2, getResources().getString(R.string.achievement_title_first_win));
             statement.bindString(3, getResources().getString(R.string.achievement_description_first_win));
             statement.bindString(4, getResources().getString(R.string.achievement_image_name_first_win));*/
-            statement2.bindString(3, "Первая победа!");
-            statement2.bindString(4, "Одержать первую победу");
-            statement2.bindString(5, "achievement_first_win");
-            statement2.bindLong(6, 0);
-            statement2.bindLong(7, 1);
+            statement2.bindString(2, "Первая победа!");
+            statement2.bindString(3, "Одержать первую победу");
+            statement2.bindString(4, "achievement_first_win");
+            statement2.bindLong(5, 0);
+            statement2.bindLong(6, 1);
             statement2.execute();
 
             database.setTransactionSuccessful();
@@ -145,11 +124,11 @@ public class SQLiteRepository {
             int id = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_ID_USER));
             String name = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME_USER));
             int wins = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int defeats = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int best_league = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int best_league_in_this_season = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int league = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int money = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
+            int defeats = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_DEFEATS_USER));
+            int best_league = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_BEST_LEAGUE_USER));
+            int best_league_in_this_season = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_BEST_LEAGUE_IN_THIS_SEASON_USER));
+            int league = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_LEAGUE_USER));
+            int money = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_MONEY_USER));
             Product background = findProductById(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_BACKGROUND_USER)));
             Product foreground = findProductById(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_FOREGROUND_USER)));
             Product skin = findProductById(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_SKIN_USER)));
@@ -195,11 +174,11 @@ public class SQLiteRepository {
             int id = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_ID_USER));
             String name = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_NAME_USER));
             int wins = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int defeats = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int best_league = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int best_league_in_this_season = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int league = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
-            int money = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_WINS_USER));
+            int defeats = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_DEFEATS_USER));
+            int best_league = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_BEST_LEAGUE_USER));
+            int best_league_in_this_season = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_BEST_LEAGUE_IN_THIS_SEASON_USER));
+            int league = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_LEAGUE_USER));
+            int money = cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_MONEY_USER));
             Product background = findProductById(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_BACKGROUND_USER)));
             Product foreground = findProductById(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_FOREGROUND_USER)));
             Product skin = findProductById(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_SKIN_USER)));
@@ -252,6 +231,27 @@ public class SQLiteRepository {
     }
 
 
+    /**Удаление записей из SQLite, с которыми связан пользователь с заданным id
+     * На вход принимает 1 параметр:
+     * int user_id - id заданного пользователя
+     * Внутри удаляются все записи из всех таблиц с данным пользователем*/
+    public void deleteUser(int user_id) {
+        SQLiteDatabase database = db.getWritableDatabase();
+
+        database.beginTransaction();
+        try {
+            database.delete(DBHelper.TABLE_NAME_USER, DBHelper.KEY_ID_USER + " = ?", new String[]{String.valueOf(user_id)});
+            database.delete(DBHelper.TABLE_NAME_ACHIEVEMENT, DBHelper.KEY_USER_ID_ACHIEVEMENT + " = ?", new String[]{String.valueOf(user_id)});
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+        }
+
+        database.close();
+        db.close();
+    }
+
+
     /**Функция получения информации о всех достиженях, полученных пользователем с данныи user_id
      * На вход принимает 1 параметр:
      * int user_id - id пользователя, достижения которого мы ищем в SQLite
@@ -283,6 +283,7 @@ public class SQLiteRepository {
             }
 
             //Заносим в объект
+            achievement.setUser_id(id);
             achievement.setTitle(title);
             achievement.setDescription(description);
             achievement.setImageName(image_name);

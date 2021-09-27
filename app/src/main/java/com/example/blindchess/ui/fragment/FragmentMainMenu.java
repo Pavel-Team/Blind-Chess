@@ -1,10 +1,8 @@
 /**Фрагмент главного меню*/
 package com.example.blindchess.ui.fragment;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -18,115 +16,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
+import com.example.blindchess.BR;
 import com.example.blindchess.R;
-import com.example.blindchess.ui.graphics.User;
-import com.example.blindchess.sqlite.DBHelper;
+import com.example.blindchess.constants.ConstantsImageView;
+import com.example.blindchess.databinding.FragmentMainMenuBinding;
+import com.example.blindchess.viewModel.MainMenuViewModel;
 
 
 public class FragmentMainMenu extends Fragment {
 
-    private ImageView imageViewUser;        //ImageView аватарки пользователя
-    private ImageView imageViewLeague;      //ImageView картинки текущей лиги
-    private TextView textViewNameUser;      //TextView имени пользователя
-    private TextView textViewIdUser;        //TextView id пользовтеля
-    private TextView textViewLeagueUser;    //TextView текущей лиги пользователя
-    private ImageButton buttonEditName;     //Кнопка редактирования имени пользователя
-    private Button buttonOnlineFriends;     //Кнопка "Друзья онлайн"
-    private Button buttonAchievements;      //Кнопка "Достижения"
-    private Button buttonRatingGame;        //Кнопка "Рейтинговый матч"
-    private Button buttonFriendGame;        //Кнопка "Играть с другом"
-    private Button buttonQuickGame;         //Кнопка "Быстрая игра"
-    private LinearLayout itemMenuShop;      //Кнопка меню "Магазин"
-    private LinearLayout itemMenuInventory; //Кнопка меню "Инвентарь"
-
-    private int idUser;                     //id пользователя
-    private String nameUser;                //Имя пользователя
-    private String imageNameBackgroundUser; //Название фона аватарки пользователя
-    private String imageNameForegroundUser; //Название переднего плана аватарки пользователя
-    private int ratingUser;                 //Рейтинг пользователя
-    private int leagueUser;                 //Текущая лига пользователя
-    private int leagueWinsUser;             //Число побед в текущей лиге пользователя
-    private int leagueDefeatsUser;          //Число поражений в текущей лиге пользователя
-
-    private User graphic;                   //Объект для получения всех необходимых Bitmap, связанных с пользователем
-
-
-    /**Функция инициализации всех View элементов разметки данного экрана*/
-    public void initViews() {
-        imageViewUser = getView().findViewById(R.id.image_view_user);
-        imageViewLeague = getView().findViewById(R.id.image_view_league);
-        textViewNameUser = getView().findViewById(R.id.text_view_user_name);
-        textViewIdUser = getView().findViewById(R.id.text_view_id_user);
-        textViewLeagueUser = getView().findViewById(R.id.text_view_league_user);
-        buttonEditName = getView().findViewById(R.id.button_edit_name);
-        buttonOnlineFriends = getView().findViewById(R.id.button_friends);
-        buttonAchievements = getView().findViewById(R.id.button_achievements);
-        buttonRatingGame = getView().findViewById(R.id.button_rating_game);
-        buttonFriendGame = getView().findViewById(R.id.button_friend_game);
-        buttonQuickGame = getView().findViewById(R.id.button_quick_game);
-        itemMenuShop = getView().findViewById(R.id.item_shop);
-        itemMenuInventory = getView().findViewById(R.id.item_inventory);
-    }
-
-
-    /**Функция установки информации о пользователе на основе данных из SQLite*/
-    public void setInformationAboutUser(){
-
-        /*//Берем данные из БД
-        DBHelper db = new DBHelper(getContext());
-        SQLiteDatabase database = db.getReadableDatabase();
-        Cursor cursor = database.query(DBHelper.TABLE_NAME_USER, null, null, null, null, null, null);
-        cursor.moveToFirst();
-
-        //Создаем транзакцию
-        database.beginTransaction();
-        try {
-            int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID_USER);
-            int idName = cursor.getColumnIndex(DBHelper.KEY_NAME_USER);
-            int idImageNameBackground = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_BACKGROUND);
-            int idImageNameForeground = cursor.getColumnIndex(DBHelper.KEY_IMAGE_NAME_FOREGROUND);
-            int idRating = cursor.getColumnIndex(DBHelper.KEY_RATING_USER);
-            int idLeague = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_USER);
-            int idLeagueWins = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_WINS_USER);
-            int idLeagueDefeats = cursor.getColumnIndex(DBHelper.KEY_LEAGUE_DEFEATS_USER);
-
-            idUser = cursor.getInt(idIndex);
-            nameUser = cursor.getString(idName);
-            imageNameBackgroundUser = cursor.getString(idImageNameBackground);
-            imageNameForegroundUser = cursor.getString(idImageNameForeground);
-            ratingUser = cursor.getInt(idRating);
-            leagueUser = cursor.getInt(idLeague);
-            leagueWinsUser = cursor.getInt(idLeagueWins);
-            leagueDefeatsUser = cursor.getInt(idLeagueDefeats);
-
-            database.setTransactionSuccessful();
-        } finally {
-            database.endTransaction();
-        }
-
-        cursor.close();
-        database.close();
-        db.close();
-
-
-        //Устанавливаем значения в соответствующие поля
-        textViewNameUser.setText(nameUser);
-        textViewIdUser.setText(String.valueOf(idUser));
-        textViewLeagueUser.setText(String.valueOf(leagueUser));
-        setAvatarUser(imageNameBackgroundUser, imageNameForegroundUser);
-        setImageViewLeague(leagueUser);*/
-    }
+    private MainMenuViewModel viewModel;     //ViewModel для данного окна
+    private FragmentMainMenuBinding binding; //Binding для связывания DataBinding и ViewModel
 
 
     /**Функция установки аватарки пользователя
@@ -134,13 +44,14 @@ public class FragmentMainMenu extends Fragment {
      * String nameBackground - название заднего фона из SQLite
      * String nameForeground - название передней фигуры из SQLite
      * Внтури происходят все необходимые вычисления и установка двух Bitmap'ов в imageViewUser*/
-    public void setAvatarUser(String nameBackground, String nameForeground){
+    private void setAvatarUser(String nameBackground, String nameForeground){
         final Bitmap[] bitmapBackground = new Bitmap[1]; //Bitmap заднего фона
         final Bitmap[] bitmapForeground = new Bitmap[1]; //Bitmap передней фигуры
+        ImageView imageViewUser = getView().findViewById(R.id.image_view_user);
 
         //Получаем Bitmap'ы для аватарки
-        bitmapBackground[0] = graphic.getBitmapBackground(nameBackground);
-        bitmapForeground[0] = graphic.getBitmapForeground(nameForeground);
+        bitmapBackground[0] = BitmapFactory.decodeResource(getContext().getResources(), ConstantsImageView.getBitmapBackground(nameBackground));
+        bitmapForeground[0] = BitmapFactory.decodeResource(getContext().getResources(), ConstantsImageView.getBitmapForeground(nameForeground));
 
 
         //Как только ImageView прогрузится на экране - загружаем в него аватрку (нужно для вычисления ширины imageView)
@@ -176,8 +87,8 @@ public class FragmentMainMenu extends Fragment {
      * Bitmap source - исходный Bitmap, который нужно отредактировать
      * int newHeight - новая высота, до которой нужно изменить исходный Bitmap
      * int newWidth - новая ширина, до которой нужно изменить исходный Bitmap
-     * Функция возвращает новый Bitmap - переделанный souce под новые размеры newWidth * newHeight*/
-    public Bitmap scaleCenterCrop(Bitmap source, int newHeight, int newWidth) {
+     * Функция возвращает новый Bitmap - переделанный source под новые размеры newWidth * newHeight*/
+    private Bitmap scaleCenterCrop(Bitmap source, int newHeight, int newWidth) {
         int sourceWidth = source.getWidth();
         int sourceHeight = source.getHeight();
         float xScale = (float) newWidth / sourceWidth;
@@ -198,18 +109,34 @@ public class FragmentMainMenu extends Fragment {
 
 
     /**Функция установки изображения текущей лиги пользователя
-     * Функция принимает 1 параметр:
+     * Функция принимает 2 параметра:
+     * ImageView - imageView, в который будет устанавливаться изображение (в нашем случае это @id/image_view_league)
      * int league - текущая лига пользователя
      * Внутри происходит установка Bitmap'а лиги в imageViewLeague*/
-    public void setImageViewLeague(int league) {
-        Bitmap bitmapLeague = graphic.getBitmapLeague(league);
-        imageViewLeague.setImageBitmap(bitmapLeague);
+    @BindingAdapter("android:src")
+    public static void setImageViewLeague(ImageView imageView, int league) {
+        int idDrawable = ConstantsImageView.getDrawableLeague(league);
+
+        imageView.setImageResource(idDrawable);
     }
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main_menu, container, false);
+
+        //Устнаваливаем ViewModel
+        viewModel = ViewModelProviders.of(this).get(MainMenuViewModel.class);
+
+        //Инициализация всех View
+        View root = inflater.inflate(R.layout.fragment_main_menu, container, false);
+
+        //Привязываем DataBinding и ViewModel
+        binding = FragmentMainMenuBinding.bind(root);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+        binding.setVariable(BR.viewModelMainMenu, viewModel);
+        binding.setVariable(BR.fragmentMainMenu, this);
+
+        return root;
     }
 
 
@@ -218,27 +145,78 @@ public class FragmentMainMenu extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
 
-        graphic = new User(getContext()); //Инициализируем объект, необходимый для получения всевозможных Bitmap
-        initViews(); //Инициализируем все необходимы View разметки данного экрана
-        setInformationAboutUser(); //Заполняем информацию о пользователе в соответствующие View
-
-        //Устанавливаем Listener для кнопки "Быстрая игра"
-        buttonQuickGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_fragmentMainMenu_to_fragmentGameRoom);
-            }
-        });
-
-        //Устнавливаем Listener для кнопки "Достижения"
-        buttonAchievements.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_fragmentMainMenu_to_fragmentAchievements);
-            }
-        });
-
+        //Отрисовываем автарку (ВРЕМЕННО - сделать в отдельном потоке)
+        setAvatarUser(viewModel.getLiveData().getValue().getBackground().getImage_name(), viewModel.getLiveData().getValue().getForeground().getImage_name());
     }
+
+
+
+    /**Функция обработки нажатия на кнопку "Изменить имя"*/
+    public void onClickButtonEditName(){
+        Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    /**Функция обработки нажатия на кнопку "Друзья онлайн"*/
+    public void onClickButtonFriends() {
+        Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
+    /**Функция обработки нажатия на кнопку "Достижения"*/
+    public void onClickButtonAchievements() {
+        Navigation.findNavController(getView()).navigate(R.id.action_fragmentMainMenu_to_fragmentAchievements);
+    }
+
+
+    /**Функция обработки нажатия на кнопку "Рейтинговый матч"*/
+    public void onClickButtonRatingGame() {
+        Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
+    /**Функция обработки нажатия на кнопку "Играть с другом"*/
+    public void onClickButtonFriendGame() {
+        Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
+    /**Функция обработки нажатия на кнопку "Быстрая игра"*/
+    public void onClickButtonQuickGame() {
+        Navigation.findNavController(getView()).navigate(R.id.action_fragmentMainMenu_to_fragmentGameRoom);
+    }
+
+
+    /**Функция обработки нажатия на кнопку "Магазин"*/
+    public void onClickButtonShop() {
+        Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
+    /**Функция обработки нажатия на кнопку "Инвентарь"*/
+    public void onClickButtonInventory() {
+        Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
+    /**Функция обработки нажатия на аватарку пользователя*/
+    public void onClickImageViewAvatar() {
+        Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
+    /**Функция обработки нажатия картинку лиги пользователя*/
+    public void onClickImageViewLeague() {
+        Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
 
 
     @Override
@@ -256,25 +234,13 @@ public class FragmentMainMenu extends Fragment {
             //Если нажат пункт "Обратная связь"
             case R.id.item_to_feedback:
                 //...
+                Toast toast = Toast.makeText(getContext(), getString(R.string.block_function), Toast.LENGTH_SHORT);
+                toast.show();
                 return true;
 
             //Если нажат пункт "Выйти"
             case R.id.item_to_back:
-
-                //ЕСЛИ БЫЛ НЕ ГОСТЬ УДАЛЯЕМ ЗАПИСЬ ИЗ SQLITE, ИНАЧЕ
-                //...
-
-                //Изменяем значение isLogin в SQLite на 0
-                DBHelper db = new DBHelper(getContext());
-                SQLiteDatabase database = db.getWritableDatabase();
-                Cursor cursor = database.query(DBHelper.TABLE_NAME_USER, new String[]{DBHelper.KEY_ID_USER}, null, null, null, null, null);
-                cursor.moveToFirst();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(DBHelper.KEY_IS_LOGIN_USER, 0);
-                database.update(DBHelper.TABLE_NAME_USER, contentValues, DBHelper.KEY_ID_USER + "=" + String.valueOf(cursor.getInt(cursor.getColumnIndex(DBHelper.KEY_ID_USER))), null);
-                cursor.close();
-                database.close();
-                db.close();
+                viewModel.quitFromAccount();
                 Navigation.findNavController(getActivity(), R.id.main_container).navigate(R.id.action_fragmentMainMenu_to_fragmentLogin);
                 return true;
 

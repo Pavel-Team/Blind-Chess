@@ -1,11 +1,6 @@
 /**Фрагмент с окном регистрации*/
 package com.example.blindchess.ui.fragment;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -24,7 +19,6 @@ import com.example.blindchess.BR;
 import com.example.blindchess.R;
 import com.example.blindchess.databinding.FragmentRegistrationBinding;
 import com.example.blindchess.model.Registration;
-import com.example.blindchess.sqlite.DBHelper;
 import com.example.blindchess.viewModel.RegistrationViewModel;
 
 import java.util.regex.Pattern;
@@ -32,17 +26,14 @@ import java.util.regex.Pattern;
 
 public class FragmentRegistration extends Fragment {
 
-    private Context context;                    //Контекст приложения
-    private DBHelper db;                        //Объект базы данных SQLite
+    private EditText editTextPassword;           //Поле ввода пароля
+    private View viewCorrectnessNick;            //View подсветка правильности ввода ника
+    private View viewCorrectnessLogin;           //View подсветка правильности ввода логина
+    private View viewCorrectnessPassword;        //View подсветка правильности ввода пароля
 
-    private EditText editTextPassword;          //Поле ввода пароля
-    private View viewCorrectnessNick;           //View подсветка правильности ввода ника
-    private View viewCorrectnessLogin;          //View подсветка правильности ввода логина
-    private View viewCorrectnessPassword;       //View подсветка правильности ввода пароля
-
-    private RegistrationViewModel viewModel;    //ViewModel для данного экрана
-    private FragmentRegistrationBinding binding;//Binding для связывания DataBinding и ViewModel
-    private Registration liveModel;             //Текущая модель привзяки данных
+    private RegistrationViewModel viewModel;     //ViewModel для данного экрана
+    private FragmentRegistrationBinding binding; //Binding для связывания DataBinding и ViewModel
+    private Registration liveModel;              //Текущая модель привзяки данных
 
     private Pattern patternNick = Pattern.compile("^[А-Яа-яa-zA-Z_0-9]+$");       //Регулярное выражение для EditText имени
     private Pattern patternLoginAndPassword = Pattern.compile("^[a-zA-Z_0-9]+$"); //Регулярное выражение для EditText логина и пароля
@@ -74,7 +65,6 @@ public class FragmentRegistration extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         //ВРЕМЕННО инициализируем необходимые VIEW
-        context = getContext();
         View thisView = getView();
         editTextPassword = thisView.findViewById(R.id.edit_text_registration_password);
         viewCorrectnessNick = thisView.findViewById(R.id.view_correctness_nickname);
@@ -175,6 +165,7 @@ public class FragmentRegistration extends Fragment {
                 break;
             case "ACCOUNT_CREATED":
                 Navigation.findNavController(getActivity(), R.id.main_container).navigate(R.id.action_fragmentRegistration_to_fragmentMainMenu);
+                //...Сохарняем в SQLite
                 break;
             case "ERROR_EMAIL":
                 error = getString(R.string.error_email);

@@ -1,349 +1,376 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:ignore="MissingDefaultResource">
+<layout>
+    <data>
+        <variable
+            name="viewModelMainMenu"
+            type="com.example.blindchess.viewModel.MainMenuViewModel" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <variable
+            name="fragmentMainMenu"
+            type="com.example.blindchess.ui.fragment.FragmentMainMenu" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@id/layout_menu_menu"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:ignore="MissingDefaultResource">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_info_about_user"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@id/layout_menu_menu"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-            <ImageView
-                android:id="@+id/image_view_user"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/layout_text_info_about_user"
-                app:layout_constraintBottom_toBottomOf="@id/layout_text_info_about_user"
-                app:layout_constraintHorizontal_weight="1"
-                android:scaleType="centerInside"/>
-
-            <LinearLayout
-                android:id="@+id/layout_text_info_about_user"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_info_about_user"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                app:layout_constraintLeft_toRightOf="@id/image_view_user"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintHorizontal_weight="3"
-                android:orientation="vertical"
-                android:paddingLeft="7dp">
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_view_user"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/layout_text_info_about_user"
+                    app:layout_constraintBottom_toBottomOf="@id/layout_text_info_about_user"
+                    app:layout_constraintHorizontal_weight="1"
+                    android:scaleType="centerInside"
+                    android:onClick="@{() -> fragmentMainMenu.onClickImageViewAvatar()}"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="horizontal">
+                    android:id="@+id/layout_text_info_about_user"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
 
-                    <TextView
-                        android:id="@+id/text_view_user_name"
-                        style="@style/TitleTextViewStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@id/image_view_user"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_weight="3"
+                    android:orientation="vertical"
+                    android:paddingLeft="7dp">
 
-                        android:layout_gravity="center_vertical"
-                        android:textColorHint="@color/white"
-                        android:textSize="24sp" />
-
-                    <ImageButton
-                        android:id="@+id/button_edit_name"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
 
-                        android:layout_marginLeft="5dp"
-                        android:background="@color/null_color"
-                        android:src="@drawable/icon_pencil"
-                        android:scaleType="centerInside"
-                        android:adjustViewBounds="true"/>
+                        <TextView
+                            android:id="@+id/text_view_user_name"
+                            android:text="@{viewModelMainMenu.liveData.name}"
+                            style="@style/TitleTextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
 
-                </LinearLayout>
+                            android:layout_gravity="center_vertical"
+                            android:textColorHint="@color/white"
+                            android:textSize="24sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                        <ImageButton
+                            android:id="@+id/button_edit_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/null_color"
+                            android:src="@drawable/icon_pencil"
+                            android:scaleType="centerInside"
+                            android:adjustViewBounds="true"
+                            android:onClick="@{() -> fragmentMainMenu.onClickButtonEditName()}"/>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                            <TextView
-                                style="@style/textViewStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
 
-                                android:layout_gravity="center_vertical"
-                                android:text="id:"
-                                android:paddingBottom="5dp"
-                                android:textColor="@color/gray"
-                                android:textSize="20sp" />
+                                <TextView
+                                    style="@style/textViewStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
 
-                            <TextView
-                                android:id="@+id/text_view_id_user"
-                                style="@style/textViewStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="id:"
+                                    android:paddingBottom="5dp"
+                                    android:textColor="@color/gray"
+                                    android:textSize="20sp" />
 
-                                android:layout_gravity="center_vertical"
-                                android:paddingLeft="5dp"
-                                android:paddingBottom="5dp"
-                                android:textColor="@color/gray"
-                                android:textSize="20sp" />
+                                <TextView
+                                    android:id="@+id/text_view_id_user"
+                                    android:text="@{String.valueOf(viewModelMainMenu.liveData.user_id)}"
+                                    style="@style/textViewStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_gravity="center_vertical"
+                                    android:paddingLeft="5dp"
+                                    android:paddingBottom="5dp"
+                                    android:textColor="@color/gray"
+                                    android:textSize="20sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/textViewStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_gravity="center_vertical"
+                                    android:hint="@string/league"
+                                    android:textColorHint="@color/white"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/text_view_league_user"
+                                    android:text='@{String.valueOf(viewModelMainMenu.liveData.league) + " (" + String.valueOf(viewModelMainMenu.liveData.league_rating) + ")"}'
+                                    style="@style/textViewStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_gravity="center_vertical"
+                                    android:paddingLeft="5dp"
+                                    android:textColorHint="@color/white"
+                                    android:textSize="20sp" />
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                        <LinearLayout
+                        <ImageView
+                            android:id="@+id/image_view_league"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
 
-                            <TextView
-                                style="@style/textViewStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:layout_gravity="center_vertical"
-                                android:hint="@string/league"
-                                android:textColorHint="@color/white"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:id="@+id/text_view_league_user"
-                                style="@style/textViewStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:layout_gravity="center_vertical"
-                                android:paddingLeft="5dp"
-                                android:textColorHint="@color/white"
-                                android:textSize="20sp" />
-                        </LinearLayout>
+                            android:layout_weight="3"
+                            android:scaleType="centerInside"
+                            android:src="@{viewModelMainMenu.liveData.league}"
+                            android:onClick="@{() -> fragmentMainMenu.onClickImageViewLeague()}"/>
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/image_view_league"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:layout_weight="3"
-                        android:scaleType="centerInside"/>
-
                 </LinearLayout>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view_menu_line_1"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+
+                android:layout_marginTop="15dp"
+                android:background="@drawable/horizontal_blue_line"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_info_about_user" />
+
+            <LinearLayout
+                android:id="@+id/layout_menu_buttons_friends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_menu_line_1">
+
+                <Button
+                    android:id="@+id/button_friends"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center_horizontal"
+                    android:drawableRight="@drawable/icon_button_friends"
+                    android:text="@string/button_friends"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> fragmentMainMenu.onClickButtonFriends()}"/>
+
+                <Button
+                    android:id="@+id/button_achievements"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:drawableRight="@drawable/icon_button_achievements"
+                    android:text="@string/button_achievements"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> fragmentMainMenu.onClickButtonAchievements()}"/>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_menu_line_2"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+
+                android:layout_marginTop="15dp"
+                android:background="@drawable/horizontal_blue_line"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_menu_buttons_friends" />
+
+            <LinearLayout
+                android:id="@+id/layout_menu_buttons_game"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_menu_line_2">
+
+                <Button
+                    android:id="@+id/button_rating_game"
+                    style="@style/beautifulButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="5dp"
+                    android:drawableRight="@drawable/icon_button_rating_game"
+                    android:text="@string/rating_game"
+                    android:textSize="22sp"
+                    android:onClick="@{() -> fragmentMainMenu.onClickButtonRatingGame()}"/>
+
+                <Button
+                    android:id="@+id/button_friend_game"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="5dp"
+                    android:drawableRight="@drawable/icon_button_game_with_friends"
+                    android:text="@string/friend_game"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> fragmentMainMenu.onClickButtonFriendGame()}"/>
+
+                <Button
+                    android:id="@+id/button_quick_game"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="5dp"
+                    android:drawableRight="@drawable/icon_button_quick_game"
+                    android:text="@string/quick_game"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> fragmentMainMenu.onClickButtonQuickGame()}"/>
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-            android:id="@+id/view_menu_line_1"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-
-            android:layout_marginTop="15dp"
-            android:background="@drawable/horizontal_blue_line"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_info_about_user" />
-
         <LinearLayout
-            android:id="@+id/layout_menu_buttons_friends"
+            android:id="@+id/layout_menu_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="30dp"
-            android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_menu_line_1">
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button_friends"
-                style="@style/buttonStyle"
+            <LinearLayout
+                android:id="@+id/item_shop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/itemStyle"
 
-                android:layout_gravity="center_horizontal"
-                android:drawableRight="@drawable/icon_button_friends"
-                android:text="@string/button_friends"
-                android:textSize="20sp" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                android:onClick="@{() -> fragmentMainMenu.onClickButtonShop()}">
 
-            <Button
-                android:id="@+id/button_achievements"
-                style="@style/buttonStyle"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/icon_shop"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/textViewStyle"
+
+                    android:text="@string/shop"
+                    android:textSize="20sp"
+                    android:gravity="center_horizontal"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/vertical_gray_line"/>
+
+            <LinearLayout
+                android:id="@+id/item_inventory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/itemStyle"
 
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:drawableRight="@drawable/icon_button_achievements"
-                android:text="@string/button_achievements"
-                android:textSize="20sp" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                android:onClick="@{() -> fragmentMainMenu.onClickButtonInventory()}">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
 
-        <View
-            android:id="@+id/view_menu_line_2"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/icon_inventory"/>
 
-            android:layout_marginTop="15dp"
-            android:background="@drawable/horizontal_blue_line"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_menu_buttons_friends" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/textViewStyle"
 
-        <LinearLayout
-            android:id="@+id/layout_menu_buttons_game"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+                    android:text="@string/inventory"
+                    android:textSize="20sp"
+                    android:gravity="center_horizontal"/>
+            </LinearLayout>
 
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="30dp"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_menu_line_2">
-
-            <Button
-                android:id="@+id/button_rating_game"
-                style="@style/beautifulButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="5dp"
-                android:drawableRight="@drawable/icon_button_rating_game"
-                android:text="@string/rating_game"
-                android:textSize="22sp" />
-
-            <Button
-                android:id="@+id/button_friend_game"
-                style="@style/buttonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="5dp"
-                android:drawableRight="@drawable/icon_button_game_with_friends"
-                android:text="@string/friend_game"
-                android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/button_quick_game"
-                style="@style/buttonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="5dp"
-                android:drawableRight="@drawable/icon_button_quick_game"
-                android:text="@string/quick_game"
-                android:textSize="20sp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_menu_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/item_shop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/itemStyle"
-
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingTop="5dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/icon_shop"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textViewStyle"
-
-                android:text="@string/shop"
-                android:textSize="20sp"
-                android:gravity="center_horizontal"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/vertical_gray_line"/>
-
-        <LinearLayout
-            android:id="@+id/item_inventory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/itemStyle"
-
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingTop="5dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/icon_inventory"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textViewStyle"
-
-                android:text="@string/inventory"
-                android:textSize="20sp"
-                android:gravity="center_horizontal"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

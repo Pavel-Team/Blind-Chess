@@ -2,6 +2,8 @@
  * Используется в User и AdapterAchievementsFragment*/
 package com.example.blindchess.model;
 
+import androidx.databinding.BaseObservable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +14,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Achievement {
+public class Achievement extends BaseObservable {
 
-    private Integer user_id;      //id пользователя, получаещего достижение!!!!!
+    private Integer user_id;      //id пользователя, получаещего достижение
     private String title;         //Название достижения
     private String description;   //Описание достижения
     private String imageName;     //Названием картикни достижения

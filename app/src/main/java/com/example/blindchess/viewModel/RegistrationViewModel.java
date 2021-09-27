@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.blindchess.model.Registration;
+import com.example.blindchess.model.User;
 import com.example.blindchess.service.RegistrationService;
+import com.example.blindchess.ui.activity.MainActivity;
 
 import java.util.regex.Pattern;
 
@@ -47,6 +49,7 @@ public class RegistrationViewModel extends ViewModel {
         if(patternNick.matcher(name).matches() && name.length() >= 4 &&
                 patternLoginAndPassword.matcher(email).matches() && email.length() >= 6 &&
                 patternLoginAndPassword.matcher(password).matches() && password.length() >= 6) {
+            MainActivity.getViewModel().getLiveData().setValue(new User());
             return registrationService.registrationUser(name, email, password);
         } else {
             return "ERROR_INPUT";

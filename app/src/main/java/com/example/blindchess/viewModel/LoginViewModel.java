@@ -18,9 +18,7 @@ public class LoginViewModel extends ViewModel {
     /**Конструктор класса
      * Внутри создается пустой объект LiveData<Login> и loginService*/
     public LoginViewModel() {
-        System.out.println("СОЗДАН НОВЫЙ ВЬЮ МОДЕЛ В ЛОГИНЕ");
-        liveDataLogin = new MutableLiveData<>();
-        liveDataLogin.setValue(new Login());
+        liveDataLogin = new MutableLiveData<>(new Login());
 
         if (loginService == null)
             loginService = new LoginService();

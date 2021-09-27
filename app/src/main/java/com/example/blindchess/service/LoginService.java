@@ -1,4 +1,4 @@
-/**Класс, содержащий всю бизнес-логику для модели Login*/
+/**Класс, содержащий всю бизнес-логику для окна FragmentLogin*/
 package com.example.blindchess.service;
 
 import com.example.blindchess.model.User;
@@ -31,7 +31,7 @@ public class LoginService {
         //else
         //return "ERROR";
         System.out.println(email + password);
-        return "null ВРЕМЕННО";
+        return "ERROR_EMAIL";
     }
 
 }

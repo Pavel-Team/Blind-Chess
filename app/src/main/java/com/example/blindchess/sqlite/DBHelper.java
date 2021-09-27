@@ -4,6 +4,7 @@ package com.example.blindchess.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Build;
 import android.os.CancellationSignal;
 import android.util.Log;
@@ -109,6 +110,32 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_USER_PROGRESS_ACHIEVEMENT + " INTEGER, " +
                     KEY_MAX_PROGRESS_ACHIEVEMENT + " INTEGER, " +
                     "FOREIGN KEY (" + KEY_USER_ID_ACHIEVEMENT + ") REFERENCES " + TABLE_NAME_USER + "(" + KEY_ID_USER + ")" + ")");
+
+            //Заполняем таблицу Product (ВРЕМЕННО первыми тремя предметами - потом заменить на подкачку данных с сервера)
+            String sql = "INSERT INTO " + DBHelper.TABLE_NAME_PRODUCT + " VALUES(?, ?, ?, ?, ?);";
+            SQLiteStatement statement = db.compileStatement(sql);
+            statement.clearBindings(); //Очищаем все текущие привязки
+            statement.bindLong(1, 1);
+            statement.bindString(2, "Белая пешка");
+            statement.bindString(3, "FOREGROUND");
+            statement.bindLong(4, 0);
+            statement.bindString(5, "foreground_pawn_white");
+            statement.execute();
+            statement.clearBindings(); //Очищаем все текущие привязки
+            statement.bindLong(1, 13);
+            statement.bindString(2, "Обычная доска");
+            statement.bindString(3, "BACKGROUND");
+            statement.bindLong(4, 0);
+            statement.bindString(5, "background_board");
+            statement.execute();
+            statement.clearBindings(); //Очищаем все текущие привязки
+            statement.bindLong(1, 14);
+            statement.bindString(2, "Стандартный скин");
+            statement.bindString(3, "SKIN");
+            statement.bindLong(4, 0);
+            statement.bindString(5, "skin_classical_chess");
+            statement.execute();
+            statement.clearBindings(); //Очищаем все текущие привязки
 
             db.setTransactionSuccessful(); //Если дошли досюда - значит транзакция прошла успешно
         } catch (Exception e){

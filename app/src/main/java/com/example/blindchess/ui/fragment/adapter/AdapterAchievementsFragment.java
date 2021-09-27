@@ -7,14 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.blindchess.R;
+import com.example.blindchess.constants.ConstantsImageView;
 import com.example.blindchess.model.Achievement;
-import com.example.blindchess.ui.graphics.Achievements;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,6 @@ public class AdapterAchievementsFragment extends BaseAdapter {
     private Context context;                            //Контекст приложения
     private ArrayList<Achievement> listAchievements;    //Лист со всеми достижениями игрока
     private LayoutInflater layoutInflater;              //Объект View, полученный из XML-разметки (item_achievement.xml)
-    private Achievements graphic;                       //Объект для получения всех необходимых R.id.drawable достижений
 
 
     /**Конструктор класса
@@ -35,7 +35,6 @@ public class AdapterAchievementsFragment extends BaseAdapter {
         this.context = context;
         this.listAchievements = listAchievements;
         layoutInflater = LayoutInflater.from(context);
-        graphic = new Achievements(context);
     }
 
 
@@ -83,7 +82,7 @@ public class AdapterAchievementsFragment extends BaseAdapter {
         Achievement achievement = this.listAchievements.get(position); //Получеем данный объект из списка всех достижений
 
         //Заполняем поля
-        Glide.with(convertView).load(graphic.getBitmapAchievement(achievement.getImageName())).into(holder.imageView);
+        Glide.with(convertView).load(ConstantsImageView.getDrawableAchievement(achievement.getImageName())).into(holder.imageView);
         holder.titleView.setText(achievement.getTitle());
         holder.descriptionView.setText(achievement.getDescription());
         holder.progress.setText(String.valueOf(achievement.getUserProgress()) + "/" + String.valueOf(achievement.getMaxProgress()));

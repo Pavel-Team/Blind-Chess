@@ -1,4 +1,4 @@
-/**Класс, содержащий всю бизнес-логику для модели Registration*/
+/**Класс, содержащий всю бизнес-логику для окна RegistrationFragment*/
 package com.example.blindchess.service;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -30,12 +30,14 @@ public class RegistrationService {
      * String name - имя пользователя
      * String email - email пользователя
      * String password - пароль пользователя
-     * В случае успеха вернет - ACCOUNT_CREATED
+     * В случае успеха вернет - ACCOUNT_CREATED и добавит пользователя в SQLite + viewModel
      * Если пользователь с таким именем существует, вернет - ERROR_NAME
      * Если пользователь с таким логином существет, вернет - ERROR_EMAIL
      * Иначе - ERROR_ACCOUNT_CREATED*/
     public String registrationUser(String name, String email, String password) {
-        return registrationRepository.registrationUser(name, email, password);
+        String response = registrationRepository.registrationUser(name, email, password);
+        MainActivity.getViewModel().getLiveData().setValue(sqLiteRepository.findUserIsLogin());
+        return response;
     }
 
 
